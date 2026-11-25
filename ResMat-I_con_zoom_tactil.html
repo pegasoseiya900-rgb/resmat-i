@@ -1,0 +1,1091 @@
+<!DOCTYPE html>
+
+<html lang="es">
+<head>
+<meta charset="utf-8"/><meta content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=5,user-scalable=yes" name="viewport"/>
+<title>ResMat-I | Resistencia de Materiales I</title>
+<style>
+:root{--bg:#0a1220;--panel:#111e31;--panel2:#0c1728;--line:#293d59;--txt:#eaf1fb;--muted:#9aabc2;--cyan:#39cce0;--blue:#5894ff;--red:#f06b70;--green:#48d5a0;--gold:#f3bd57}
+*{box-sizing:border-box}html,body{width:100%;max-width:100%;overflow-x:hidden}body{margin:0;background:var(--bg);color:var(--txt);font:14px/1.45 Inter,Segoe UI,Arial,sans-serif}
+header{position:sticky;top:0;z-index:4;background:#0d192a;border-bottom:1px solid var(--line);padding:13px 20px;display:flex;justify-content:space-between;align-items:center}
+.brand{font-weight:850;letter-spacing:.8px}.brand small{display:block;color:var(--muted);font-size:10px;letter-spacing:1.5px}.pill{border:1px solid #27634f;background:#102c29;color:var(--green);padding:6px 10px;border-radius:30px;font-size:11px}
+main{width:100%;max-width:1500px;min-width:0;margin:auto;padding:18px;display:grid;grid-template-columns:350px minmax(0,1fr);gap:16px}
+.panel{min-width:0;background:var(--panel);border:1px solid var(--line);border-radius:13px;overflow:hidden}.head{padding:13px 15px;border-bottom:1px solid var(--line);font-weight:750;display:flex;justify-content:space-between;align-items:center}.body{padding:14px}
+h1{font-size:21px;margin:0 0 4px}.sub,.hint{color:var(--muted);font-size:11px}.section{font-size:12px;font-weight:800;color:#8fe4ee;margin:16px 0 7px;text-transform:uppercase;letter-spacing:.7px}
+label{display:block;font-size:11px;color:#b9c9dc;margin:8px 0 4px}input,select{width:100%;padding:9px 10px;border:1px solid #334a68;border-radius:7px;background:#0a1627;color:var(--txt);font-size:13px;min-width:0}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:8px}.row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:7px}
+button{cursor:pointer;border:0;border-radius:7px;padding:9px 11px;font-weight:750;background:var(--cyan);color:#071522;font-size:12px}.secondary{background:#243954;color:var(--txt);border:1px solid #3a5271}.danger{background:#482934;color:#ffc0c4;border:1px solid #75414a}.btns{display:flex;gap:7px;margin-top:10px}.btns button{flex:1}
+.right{min-width:0;display:flex;flex-direction:column;gap:14px}.modelcanvas{background:#0a1627;border-radius:9px;padding:8px}.modelcanvas canvas{width:100%;height:auto;aspect-ratio:12/5;display:block;max-width:100%}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}.metric{background:#0a1627;border:1px solid #263b56;padding:11px;border-radius:9px}.metric small{color:var(--muted);font-size:10px}.metric strong{display:block;font-size:18px;margin-top:4px}.metric em{font-size:10px;color:var(--muted);font-style:normal}
+.graph{background:#0a1627;border:1px solid #263b56;border-radius:9px;padding:9px;margin-bottom:10px}.graph:last-child{margin-bottom:0}.graph canvas{width:100%;height:auto;display:block;max-width:100%}.graphtitle{font-weight:800;font-size:12px;margin:2px 4px 6px}
+table{border-collapse:collapse;width:100%;font-size:11px}td,th{padding:7px 5px;border-bottom:1px solid #293c56;text-align:left}th{color:#9db1ca}.empty{color:var(--muted);font-size:11px;padding:9px 0}
+.tag{font-size:10px;color:#9ddce8;background:#183548;padding:4px 7px;border-radius:20px}.message{padding:10px;border:1px solid #705b31;background:#302819;color:#ffdda0;border-radius:8px;font-size:11px;margin-top:10px}
+.criticalFlexionCard{margin-top:14px;padding:15px 17px;border:2px solid #35b982;background:linear-gradient(135deg,#123b30,#102b28);border-radius:11px;color:#eafff5;box-shadow:0 0 0 2px #35b98222,0 8px 22px #0004;font-size:13px;line-height:1.6}
+.criticalFlexionCard .cardTitle{display:flex;align-items:center;gap:8px;color:#75f0b9;font-weight:900;font-size:12px;letter-spacing:.6px;text-transform:uppercase;margin-bottom:6px}
+.criticalFlexionCard strong{color:#fff;font-size:14px}
+@media(max-width:950px){main{grid-template-columns:minmax(0,1fr);padding:10px;width:100%}.cards{grid-template-columns:1fr 1fr}header{padding:10px}}
+.stressRows{display:grid;gap:6px;margin-top:12px}
+.stressLine{display:flex;flex-wrap:wrap;gap:5px 12px;align-items:center;background:#0a1627;border:1px solid #263b56;border-radius:7px;padding:8px 10px;font-size:11px}
+.stressLine b{color:#ffffff}.stressLine span{color:#f4f7fc}.stressLine strong{color:#ffffff;font-weight:900}.stressLine .ok{color:#48d5a0}.stressLine .bad{color:#f06b70}
+.stressVisual{margin-top:12px;background:#0a1627;border:1px solid #263b56;border-radius:9px;padding:8px}
+.stressVisual canvas{width:100%;height:auto;display:block}.valueGlow{color:#ffffff;font-size:15px;text-shadow:0 0 7px #69bfff,0 0 12px #69bfff}.stressLine span{color:#f4f7fc}.stressLine span strong{font-weight:900}
+@media(max-width:700px){.graph{padding:7px}.graph canvas{height:auto}header{gap:8px;min-width:0}.brand{font-size:15px}.brand small{font-size:8px;letter-spacing:.8px}.pill{font-size:9px;padding:5px 7px;white-space:nowrap}.stressLine{display:block}.stressLine span{display:inline-block;margin:2px 5px 2px 0}input,select,button{max-width:100%}}
+
+
+.stressCheckTable{width:100%;border-collapse:collapse;font-size:13px;margin-top:8px;table-layout:fixed}
+.stressCheckTable th,.stressCheckTable td{padding:8px 9px;border-bottom:1px solid rgba(180,200,225,.18);text-align:left;vertical-align:middle;overflow-wrap:anywhere}
+.stressCheckTable th:nth-child(1){width:34%}.stressCheckTable th:nth-child(2){width:20%}.stressCheckTable th:nth-child(3){width:16%}.stressCheckTable th:nth-child(4){width:14%}.stressCheckTable th:nth-child(5){width:16%}
+@media(max-width:700px){
+ .stressCheckTable,.stressCheckTable tbody{display:block;width:100%}
+ .stressCheckTable thead{display:none}
+ .stressCheckTable tr{display:grid;grid-template-columns:1fr 1fr;gap:0 12px;padding:9px 10px;margin:8px 0;background:#0a1627;border:1px solid #293d59;border-radius:9px}
+ .stressCheckTable td{display:block;border:0;padding:5px 0;min-width:0;font-size:12px}
+ .stressCheckTable td:nth-child(1){grid-column:1/-1;color:#dce8f7;font-weight:750;border-bottom:1px solid #293d59;margin-bottom:3px}
+ .stressCheckTable td:nth-child(2)::before{content:'Calculado';display:block;color:#9aabc2;font-size:10px}
+ .stressCheckTable td:nth-child(3)::before{content:'Admisible';display:block;color:#9aabc2;font-size:10px}
+ .stressCheckTable td:nth-child(4)::before{content:'Estado';display:block;color:#9aabc2;font-size:10px}
+ .stressCheckTable td:nth-child(5)::before{content:'Margen / exceso';display:block;color:#9aabc2;font-size:10px}
+}
+.stressCheckTable th{color:#dce8f7;font-weight:800;background:rgba(100,140,190,.12)}
+.stressCheckTable td{color:#f4f7fc}
+.stressCheckTable td b{color:#fff;font-weight:900}
+
+main.mainStack{width:100%;max-width:1180px;min-width:0;margin:auto;padding:14px;display:flex;flex-direction:column;gap:14px}
+.mainStack>.panel,.mainStack>section{width:100%;min-width:0}.introPanel .body{font-size:13px;color:#c5d3e5}.sectionTitle{font-weight:850;color:#8fe4ee;font-size:13px;letter-spacing:.5px;margin:2px 2px 8px}.diagramGrid{display:grid;grid-template-columns:minmax(0,1fr);gap:12px;align-items:start}.diagramPanel{min-width:0}.diagramPanel .head{min-height:48px}.diagramPanel .graph{margin:0;min-height:230px}.compactDiagram .body{padding:9px}.compactDiagram .graph{height:76px;display:flex;align-items:center;justify-content:center;overflow:hidden;border-style:dashed;background:repeating-linear-gradient(0deg,#0a1627,#0a1627 14px,#102039 15px),repeating-linear-gradient(90deg,transparent,transparent 14px,#102039 15px)}.compactDiagram .graph canvas{display:none}.compactDiagram .graph:after{content:"El diagrama aparecerá al calcular";color:#8296ad;font-size:11px;text-align:center}.controlsPanel .body{display:grid;grid-template-columns:minmax(0,1fr);gap:0}.controlsPanel .body>.section,.controlsPanel .body>.hint,.controlsPanel .body>#supportList,.controlsPanel .body>#materialList,.controlsPanel .body>#profileParts,.controlsPanel .body>.modelcanvas,.controlsPanel .body>#profileResults,.controlsPanel .body>#loadList,.controlsPanel .body>.btns,.controlsPanel .body>#status,.controlsPanel .body>.message{grid-column:1/-1}.controlsPanel .body>label,.controlsPanel .body>.row,.controlsPanel .body>button{min-width:0}.resultsSection .cards{margin-bottom:12px}.diagramPanel:not(.compactDiagram) .graph:after{content:none}@media(max-width:700px){main.mainStack{padding:9px;gap:11px}.diagramGrid{grid-template-columns:1fr}.controlsPanel .body{grid-template-columns:1fr}.diagramPanel .head{font-size:13px}.compactDiagram .graph{height:64px}}.verificationLayout{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(230px,.85fr);gap:12px;align-items:start}.materialVerification{background:#0d1a2b;border:1px solid #2b405c;border-radius:10px;padding:12px;min-width:0}.materialVerification h3{margin:2px 0 10px;color:#dce8f7;font-size:14px}.materialCard{border:1px solid #2b405c;border-radius:8px;padding:9px;margin:8px 0;background:#101f33}.materialCard .matHead{display:flex;justify-content:space-between;gap:8px;font-weight:800;margin-bottom:5px}.materialCard p{margin:4px 0;font-size:12px;color:#c5d3e5}.materialLegend{display:flex;gap:12px;flex-wrap:wrap;margin:5px 0 9px;font-size:11px;color:#c5d3e5}.materialLegend span{display:flex;align-items:center;gap:5px}.materialLegend i{display:inline-block;width:13px;height:4px;border-radius:3px}.materialVerification .hint{font-size:11px}@media(max-width:760px){.verificationLayout{grid-template-columns:1fr}}
+
+#beamFloatWrap[hidden]{display:none!important}
+#beamFloatWrap{position:fixed;inset:0;z-index:30;pointer-events:none}
+#beamFloatLauncher{position:fixed;right:14px;bottom:16px;pointer-events:auto;border:1px solid #49d8eb;background:#10344b;color:#eafaff;border-radius:24px;padding:11px 15px;box-shadow:0 5px 22px #0009;font-size:13px}
+#beamFloatWindow{position:fixed;right:12px;bottom:14px;width:min(440px,calc(100vw - 24px));background:#101e31;border:1.5px solid #48d8eb;border-radius:13px;box-shadow:0 10px 35px #000b,0 0 14px #39cce044;overflow:hidden;pointer-events:auto}
+#beamFloatHeader{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:9px 11px;background:#17314b;border-bottom:1px solid #34516e;cursor:move;touch-action:none;font-size:13px}
+#beamFloatHeader span{display:flex;gap:6px}
+#beamFloatHeader button{padding:3px 10px;background:#294866;color:#fff;font-size:17px;line-height:1.2}
+.beamFloatContent{padding:8px;background:#081525}
+.beamFloatContent canvas{display:block;width:100%;height:auto;aspect-ratio:12/5}
+.beamFloatContent small{display:block;color:#9db2c9;font-size:10px;text-align:center;padding-top:4px}
+#beamFloatWindow.minimized .beamFloatContent{display:none}
+#beamFloatWindow.minimized{width:min(270px,calc(100vw - 24px))}
+@media(max-width:520px){
+ #beamFloatWindow{right:8px;bottom:8px;width:calc(100vw - 16px)}
+ #beamFloatLauncher{right:10px;bottom:10px}
+ .beamFloatContent{padding:5px}
+}
+
+</style>
+</head>
+<body>
+<header>
+<div style="display:flex;align-items:center;gap:12px">
+<div aria-label="Logotipo MAMC" style="width:42px;height:42px;flex:0 0 42px;border-radius:10px;background:linear-gradient(145deg,#173b5b,#0b2238);border:1px solid #39cce0;display:flex;align-items:center;justify-content:center;color:#eaf7ff;font-size:13px;font-weight:900;letter-spacing:-.6px;box-shadow:0 0 12px #39cce033">MAMC</div>
+<div class="brand">ResMat-I <small>RESISTENCIA DE MATERIALES I · M. A. M. C.</small></div>
+</div>
+<span class="pill">● Editor de viga activo</span>
+</header>
+<main class="mainStack"><section class="introPanel panel"><div class="head">01 · Guía de ResMat-I <span class="tag">Ayuda</span></div><div class="body">
+<p><b>1. Definir la viga:</b> introduce su longitud total y la unidad de fuerza.</p>
+<p><b>2. Colocar apoyos:</b> selecciona articulación, rodillo o empotramiento e indica su posición.</p>
+<p><b>3. Agregar cargas:</b> registra cargas puntuales, distribuidas (inicial y final) y momentos concentrados con sus posiciones y sentidos. También puedes escribir instrucciones en el apartado de entrada por texto.</p>
+<p><b>4. Definir materiales:</b> delimita los tramos A y B para distinguirlos en el diagrama de momentos.</p>
+<p><b>5. Calcular:</b> pulsa <b>Calcular diagramas</b> para obtener reacciones, cortante V(x), momento M(x) y puntos críticos.</p>
+<p><b>6. Revisar:</b> consulta el perfil transversal, la verificación de esfuerzos y las resultantes disponibles en sus apartados.</p>
+<p class="hint">Las líneas segmentadas señalan cambios de tramo y puntos interiores V(x)=0. No alteran las magnitudes ni las longitudes originales.</p>
+</div></section><div class="panel"><div class="head">02 · Esquema estructural de la viga <span class="tag">Vista de la viga</span></div><div class="body modelcanvas"><canvas height="500" id="beam" width="1200"></canvas></div></div><section class="diagramSection"><div class="sectionTitle">03 · Diagramas de análisis</div><div class="diagramGrid"><div class="panel diagramPanel compactDiagram" id="shearPanel"><div class="head">V(x) · Diagrama de fuerza cortante</div><div class="body"><div class="graph"><canvas height="680" id="shear" width="1200"></canvas></div></div></div><div class="panel diagramPanel compactDiagram" id="momentPanel"><div class="head">M(x) · Diagrama de momento flector <button class="secondary" id="flipMomentBtn" onclick="toggleMomentDiagram()" type="button">Invertir diagrama</button></div><div class="body"><div class="hint" id="momentConventionHint" style="margin:0 0 8px">Convención actual: signo original del análisis y verificación. Si defines materiales, el trazo se colorea por tramo: A en celeste y B en ámbar.</div><div class="graph"><canvas height="680" id="moment" width="1200"></canvas></div></div></div></div></section><aside class="panel controlsPanel">
+<div class="head">04 · Creación y diseño de la viga <span class="tag">Editor</span></div>
+<div class="body">
+<label>Longitud total (m)</label><input id="L" min=".1" step=".1" type="number" value="10"/>
+<div class="hint">Al cambiar la longitud, el esquema se actualiza. Las posiciones se miden desde el extremo izquierdo.</div>
+
+<div class="section">Entrada por texto</div>
+<div class="hint">Escribe la descripción de la viga, sus apoyos y cargas. Revisa los datos detectados antes de incorporarlos al ejercicio.</div>
+<div class="voiceBox" style="margin-top:8px;padding:10px;border:1px solid #334a68;border-radius:9px;background:#0a1627">
+  <textarea id="voiceTranscript" rows="4" style="width:100%;margin-top:8px;padding:9px;border:1px solid #334a68;border-radius:7px;background:#101f33;color:#eaf1fb;resize:vertical" placeholder="Ej.: Viga de 7,50 m. Articulación en 0 m. Rodillo en 7,50 m. Carga puntual de 12 kN hacia abajo en 3 m."></textarea>
+  <button class="secondary" type="button" style="width:100%;margin-top:7px" onclick="interpretVoiceDraft()">Interpretar y revisar</button>
+  <div id="voicePreview" class="hint" style="margin-top:8px">Ejemplos admitidos:
+    <br>• Carga puntual de 12 kN hacia abajo en 3 m.
+    <br>• Carga puntual de 8 kN hacia arriba en 5 m.
+    <br>• Momento horario de 15 kN·m en 4 m.
+    <br>• Momento antihorario de 10 kN·m en 2 m.
+    <br>• Carga distribuida de 0 a 7,5 m, Q1=6 y Q2=0.
+  </div>
+</div>
+
+<div class="section">Añadir apoyo</div>
+<label>Tipo de apoyo</label><select id="supportType"><option value="pin">Articulado (restringe desplazamiento vertical)</option><option value="roller">Rodillo (restringe desplazamiento vertical)</option><option value="fixed">Empotramiento (restringe giro y desplazamiento)</option></select>
+<div class="row"><div><label>Ubicación</label><select id="supportSide"><option value="x">Por posición x</option><option value="left">Extremo izquierdo</option><option value="right">Extremo derecho</option></select></div><div><label>Posición x (m)</label><input id="supportX" step=".1" type="number" value="0"/></div></div>
+<button onclick="addSupport()" style="width:100%;margin-top:9px">+ Agregar apoyo a la viga</button>
+<div id="supportList"></div>
+<div class="section">Segmentación por material (etapa posterior)</div>
+<div class="row"><div><label>Material</label><select id="materialType"><option value="A">Material A</option><option value="B">Material B</option></select></div><div><label>Inicio x (m)</label><input id="materialA" step=".1" type="number" value="0"/></div></div>
+<div class="row"><div><label>Fin x (m)</label><input id="materialB" step=".1" type="number" value="5"/></div><div style="display:flex;align-items:end"><button onclick="addMaterialSegment()" style="width:100%">+ Dividir por material</button></div></div>
+<div class="hint">Solo identifica los tramos Material A/B en el esquema. Por ahora no modifica EI ni los resultados de cortante y momento.</div>
+<div id="materialList"></div>
+<div class="section">Perfil transversal de la viga</div>
+<div class="hint">Construye la sección sumando rectángulos y, si hace falta, restando huecos. Las coordenadas x e y se miden desde la esquina inferior izquierda de la sección.</div>
+
+<div class="row"><div><label>Nombre</label><input id="rectName" value="Parte"/></div><div><label>Base b</label><input id="rectW" min="0.01" step="0.1" type="number" value="4"/></div></div>
+<div class="row"><div><label>Altura h</label><input id="rectH" min="0.01" step="0.1" type="number" value="2"/></div><div style="display:flex;align-items:end"><button onclick="addProfileRect()" style="width:100%">+ Añadir rectángulo</button></div></div>
+<div class="hint">Cada nuevo rectángulo se centra automáticamente en el mismo eje vertical y se une debajo del anterior. No se introducen coordenadas.</div>
+<div id="profileParts"></div>
+<div class="modelcanvas" style="margin-top:9px"><canvas height="360" id="profileCanvas" style="width:100%;height:230px;display:block" width="600"></canvas></div>
+<div class="metric" id="profileResults" style="margin-top:8px"><small>Propiedades geométricas</small><div class="empty">Agrega rectángulos para construir el perfil.</div></div>
+<div class="section">Añadir cargas</div>
+<label>Tipo de acción</label><select id="loadType" onchange="toggleLoadFields()"><option value="point">Carga puntual</option><option value="distributed">Carga distribuida lineal (uniforme / triangular / trapezoidal)</option><option value="moment">Momento concentrado</option></select>
+<div id="pointFields">
+<div class="row"><div><label>Magnitud P</label><input id="P" min="0" step=".1" type="number" value="10"/></div><div><label>Posición x (m)</label><input id="Px" step=".1" type="number" value="5"/></div></div><label>Sentido de la carga</label><select id="pointDir"><option value="down">Hacia abajo ↓</option><option value="up">Hacia arriba ↑</option></select>
+<div class="hint">Carga positiva hacia abajo; negativa hacia arriba.</div>
+</div>
+<div id="distFields" style="display:none">
+<div class="row"><div><label>Inicio a (m)</label><input id="a" step=".1" type="number" value="2"/></div><div><label>Fin b (m)</label><input id="b" step=".1" type="number" value="7"/></div></div>
+<div class="row"><div><label>Magnitud inicial q₁</label><input id="q0" min="0" step=".1" type="number" value="0"/></div><div><label>Magnitud final q₂</label><input id="q1" min="0" step=".1" type="number" value="6"/></div></div><label>Sentido de la carga distribuida</label><select id="distDir"><option value="down">Hacia abajo ↓</option><option value="up">Hacia arriba ↑</option></select>
+<div class="hint">q₁ y q₂ se miden en fuerza/m. 0 → q₂ representa una carga triangular; iguales, uniforme; otros valores, trapezoidal.</div>
+</div>
+<div id="momentFields" style="display:none">
+<div class="row"><div><label>Magnitud M</label><input id="M" min="0" step=".1" type="number" value="12"/></div><div><label>Posición x (m)</label><input id="Mx" step=".1" type="number" value="5"/></div></div><label>Sentido del momento</label><select id="momentDir"><option value="cw">Horario ↻</option><option value="ccw">Antihorario ↺</option></select>
+<div class="hint">El sentido se representa también en el esquema de la viga.</div>
+</div>
+<div class="row" style="margin-top:8px"><div><label>Unidad de fuerza (elige antes de ingresar los valores)</label><select id="unit"><option>tf</option><option>kN</option><option>N</option><option>kgf</option></select></div></div><input id="EI" type="hidden" value="1"/>
+<button onclick="addLoad()" style="width:100%;margin-top:9px">+ Agregar acción a la viga</button>
+<div id="loadList"></div>
+<div class="btns"><button class="secondary" onclick="loadExample()">Cargar ejemplo</button><button class="danger" onclick="resetAll()">Reiniciar</button></div>
+<button onclick="solve()" style="width:100%;margin-top:9px">CALCULAR DIAGRAMAS</button>
+<div class="hint" id="status" style="margin-top:9px">Agrega apoyos y cargas; después calcula.</div>
+<div class="hint" style="margin-top:7px">Las unidades no se convierten automáticamente: todas las magnitudes introducidas se interpretan en la unidad seleccionada (y por metro para q).</div>
+<div class="message">Nota técnica: el motor usa el método de rigidez matricial de elementos de viga Euler–Bernoulli. Permite varios apoyos, pero requiere EI constante y apoyos verticales estables. Es un prototipo académico; valida los resultados antes de usarlo en diseño.</div>
+</div>
+</aside><section class="resultsSection"><div class="sectionTitle">05 · Resultados del análisis</div><div class="cards">
+<div class="metric"><small>Reacciones verticales</small><strong id="rCount">—</strong><em>cantidad de reacciones</em></div>
+<div class="metric"><small>Cortante máximo |V|</small><strong id="vmax">—</strong><em id="uV">kN</em></div>
+<div class="metric"><small>Momento máximo |M|</small><strong id="mmax">—</strong><em id="uM">kN·m</em></div>
+<div class="metric"><small>Momento positivo máximo</small><strong id="mpos">—</strong><em id="xmpos">x = — m</em></div>
+<div class="metric"><small>Momento negativo mínimo</small><strong id="mneg">—</strong><em id="xmneg">x = — m</em></div>
+<div class="metric"><small>Comprobación</small><strong id="check">—</strong><em>equilibrio vertical ΣFy</em></div>
+</div><div class="panel"><div class="head">05 · Resultados y reacciones</div><div class="body"><div class="empty" id="results">Los resultados aparecerán aquí después de calcular.</div></div></div></section><div class="panel">
+<div class="head">06 · Verificación individual de esfuerzos y resultantes</div>
+<div class="body">
+<div class="hint">El análisis se actualiza con el perfil, los momentos calculados y los tramos de material. Valores iniciales del ejercicio del ingeniero. Puedes modificarlos para otros ejercicios; las fórmulas y el análisis general no cambian.</div>
+<div class="row">
+<div><label>Material A · admisible a tracción (kgf/cm²)</label><input id="admAT" type="number" value="1000"/></div>
+<div><label>Material A · admisible a compresión (kgf/cm²)</label><input id="admAC" type="number" value="1100"/></div>
+</div>
+<div class="row">
+<div><label>Material B · admisible a tracción (kgf/cm²)</label><input id="admBT" type="number" value="1750"/></div>
+<div><label>Material B · admisible a compresión (kgf/cm²)</label><input id="admBC" type="number" value="1900"/></div>
+</div>
+<div class="btns"><button onclick="updateStressModule()">Actualizar verificación</button><button class="secondary" onclick="clearStressAllowables()">Limpiar admisibles</button></div>
+<div class="verificationLayout"><div class="stressRows" id="stressRows"><div class="empty">Define el perfil, calcula la viga y asigna los tramos de material para generar las verificaciones.</div></div><aside class="materialVerification" id="materialVerification"><div class="empty">La comparación por material aparecerá al calcular.</div></aside></div>
+<div class="stressVisual">
+<canvas height="620" id="stressCanvas" width="1200"></canvas>
+</div>
+<div class="stressRows" id="stressResultants"><div class="empty">Las resultantes y sus brazos aparecerán cuando exista un caso crítico verificable.</div></div>
+</div>
+</div></main>
+<script>
+const $=id=>document.getElementById(id);let supports=[],loads=[],materialSegments=[],last=null;
+const unit=()=> $('unit').value, num=id=>Number($(id).value), fmt=(v,n=3)=>Number.isFinite(v)?(Math.abs(v)<1e-9?0:v).toFixed(n).replace('.',','):'—';
+function toggleLoadFields(){let t=$('loadType').value;$('pointFields').style.display=t==='point'?'block':'none';$('distFields').style.display=t==='distributed'?'block':'none';$('momentFields').style.display=t==='moment'?'block':'none'}
+function validPos(x,L){return Number.isFinite(x)&&x>=0&&x<=L}
+function addSupport(){let L=num('L'),type=$('supportType').value,side=$('supportSide').value,x=side==='left'?0:side==='right'?L:num('supportX');if(!(L>0)||!validPos(x,L)){alert('La posición del apoyo debe estar entre 0 y la longitud de la viga.');return}
+ if(supports.some(s=>Math.abs(s.x-x)<1e-8)){alert('Ya existe un apoyo en esa posición. Elige otra coordenada para evitar duplicar la reacción.');return}
+ supports.push({type,x});supports.sort((a,b)=>a.x-b.x);renderLists();drawBeam();$('status').textContent='Apoyo agregado en x = '+fmt(x)+' m.'}
+function addLoad(){let L=num('L'),t=$('loadType').value,l;
+ if(!(L>0)){alert('Introduce una longitud válida.');return}
+ if(t==='point'){let p=num('P');l={type:t,P:$('pointDir').value==='up'?-p:p,x:num('Px')};if(!Number.isFinite(p)||p<0||!validPos(l.x,L)){alert('Revisa magnitud y posición de la carga puntual.');return}}
+ if(t==='distributed'){let q0=num('q0'),q1=num('q1'),sgn=$('distDir').value==='up'?-1:1;l={type:t,a:num('a'),b:num('b'),q0:q0*sgn,q1:q1*sgn};if(![l.a,l.b,q0,q1].every(Number.isFinite)||q0<0||q1<0||l.a<0||l.b>L||l.b<=l.a){alert('Debe cumplirse 0 ≤ a < b ≤ L y magnitudes no negativas.');return}}
+ if(t==='moment'){let m=num('M');l={type:t,M:$('momentDir').value==='cw'?m:-m,x:num('Mx')};if(!Number.isFinite(m)||m<0||!validPos(l.x,L)){alert('Revisa magnitud y posición del momento.');return}}
+ loads.push(l);renderLists();drawBeam();$('status').textContent='Acción agregada y dibujada en la viga. Pulsa CALCULAR para obtener los diagramas.'}
+function addMaterialSegment(){
+ let L=num('L'),a=num('materialA'),b=num('materialB'),type=$('materialType').value;
+ if(!(L>0)||!Number.isFinite(a)||!Number.isFinite(b)||a<0||b>L||b<=a){alert('El tramo de material debe cumplir 0 ≤ inicio < fin ≤ longitud de la viga.');return}
+ if(materialSegments.some(z=>Math.min(b,z.b)-Math.max(a,z.a)>1e-8)){alert('Ese tramo se superpone con otro segmento de material. Ajusta las distancias para dividir la viga sin solapamientos.');return}
+ materialSegments.push({a,b,type});materialSegments.sort((x,y)=>x.a-y.a);renderLists();drawBeam();$('status').textContent='Segmento '+type+' agregado. Esta división es solo informativa y no altera el cálculo actual.';
+}
+function removeMaterialSegment(i){materialSegments.splice(i,1);renderLists();drawBeam()}
+function removeSupport(i){supports.splice(i,1);renderLists();drawBeam()}
+function removeLoad(i){loads.splice(i,1);renderLists();drawBeam()}
+function renderLists(){
+ $('supportList').innerHTML=supports.length?'<table><tr><th>Apoyo</th><th>Posición</th><th></th></tr>'+supports.map((s,i)=>`<tr><td>${s.type==='fixed'?'Empotramiento':s.type==='pin'?'Articulado':'Rodillo'}</td><td>${fmt(s.x)} m</td><td><button class="danger" onclick="removeSupport(${i})">×</button></td></tr>`).join('')+'</table>':'<div class="empty">No hay apoyos agregados.</div>';
+ $('materialList').innerHTML=materialSegments.length?'<table><tr><th>Material</th><th>Desde–hasta</th><th></th></tr>'+materialSegments.map((z,i)=>`<tr><td>Material ${z.type}</td><td>${fmt(z.a)}–${fmt(z.b)} m</td><td><button class="danger" onclick="removeMaterialSegment(${i})">×</button></td></tr>`).join('')+'</table>':'<div class="empty">Aún no se han definido materiales.</div>';
+ $('loadList').innerHTML=loads.length?'<table><tr><th>Acción</th><th>Datos</th><th></th></tr>'+loads.map((l,i)=>{let d=l.type==='point'?`P=${fmt(Math.abs(l.P))} ${unit()} ${l.P<0?'↑':'↓'} · x=${fmt(l.x)} m`:l.type==='moment'?`M=${fmt(Math.abs(l.M))} ${unit()}·m ${l.M>0?'↻':'↺'} · x=${fmt(l.x)} m`:`q=${fmt(Math.abs(l.q0))}→${fmt(Math.abs(l.q1))} ${unit()}/m ${l.q0<0||l.q1<0?'↑':'↓'} · ${fmt(l.a)}–${fmt(l.b)} m`;return `<tr><td>${l.type==='point'?'Puntual':l.type==='moment'?'Momento':'Distribuida'}</td><td>${d}</td><td><button class="danger" onclick="removeLoad(${i})">×</button></td></tr>`}).join('')+'</table>':'<div class="empty">No hay cargas agregadas.</div>';
+}
+function loadExample(){ $('L').value=2;supports=[{type:'pin',x:0},{type:'roller',x:2}];loads=[{type:'distributed',a:0,b:1,q0:6,q1:6},{type:'point',P:10,x:1}];$('EI').value=1;renderLists();drawBeam();solve()}
+function resetAll(){supports=[];loads=[];materialSegments=[];last=null;$('shearPanel').classList.add('compactDiagram');$('momentPanel').classList.add('compactDiagram');renderLists();drawBeam();['rCount','vmax','mmax','mpos','mneg','check'].forEach(id=>$(id).textContent='—');$('xmpos').textContent='x = — m';$('xmneg').textContent='x = — m';$('results').innerHTML='<div class="empty">Los resultados aparecerán aquí después de calcular.</div>';clearCanvas('shear');clearCanvas('moment');$('stressRows').innerHTML='<div class="empty">Calcula la viga y define los tramos de material.</div>';$('materialVerification').innerHTML='<div class="empty">La comparación por material aparecerá al calcular.</div>';$('stressResultants').innerHTML='<div class="empty">Las resultantes aparecerán al seleccionar un caso crítico.</div>';clearCanvas('stressCanvas')}
+function clearCanvas(id){let c=$(id),ctx=c.getContext('2d');ctx.clearRect(0,0,c.width,c.height)}
+// Beam element finite-element assembly, DOFs [v_i,theta_i,v_j,theta_j].
+function shape(r,L){return [1-3*r*r+2*r*r*r,L*(r-2*r*r+r*r*r),3*r*r-2*r*r*r,L*(-r*r+r*r*r)]}
+function gaussSolve(A,b){
+ const n=b.length,M=A.map((r,i)=>r.slice().concat([b[i]]));
+ const scale=M.map(r=>Math.max(...r.slice(0,n).map(v=>Math.abs(v)),0));
+ if(scale.some(v=>!Number.isFinite(v)||v===0))throw Error('La matriz de rigidez contiene una fila nula. Revisa los apoyos y la geometría de la viga.');
+ for(let k=0;k<n;k++){
+  let p=k,best=-1;
+  for(let i=k;i<n;i++){const score=Math.abs(M[i][k])/scale[i];if(score>best){best=score;p=i}}
+  if(!Number.isFinite(best)||best<1e-12)throw Error('La matriz de rigidez es singular: la estructura tiene un movimiento libre o apoyos insuficientes. Comprueba que existan dos apoyos verticales separados o un empotramiento.');
+  [M[k],M[p]]=[M[p],M[k]];[scale[k],scale[p]]=[scale[p],scale[k]];
+  const d=M[k][k];for(let j=k;j<=n;j++)M[k][j]/=d;
+  for(let i=0;i<n;i++)if(i!==k){const f=M[i][k];if(f!==0)for(let j=k;j<=n;j++)M[i][j]-=f*M[k][j]}
+ }
+ return M.map(r=>r[n]);
+}
+function solve(){
+ try {
+ let L=num('L'),EI=(num('EI')>0?num('EI'):1);if(!(L>0)){alert('La longitud de la viga debe ser mayor que cero.');return}
+ if(supports.length<1||(!supports.some(s=>s.type==='fixed')&&supports.length<2)){alert('Agrega un empotramiento o al menos dos apoyos simples para estabilizar la viga.');return}
+ if(supports.some(s=>s.x<0||s.x>L)||loads.some(l=>(Number.isFinite(l.x)&&(l.x<0||l.x>L))||(l.type==='distributed'&&(l.a<0||l.b>L)))){alert('Hay apoyos o cargas fuera de la longitud actual.');return}
+ // Mesh nodes include supports, load positions and distributed-load endpoints.
+ let xs=[0,L,...supports.map(s=>s.x),...loads.flatMap(l=>l.type==='distributed'?[l.a,l.b]:[l.x])].sort((a,b)=>a-b).filter((x,i,a)=>i===0||Math.abs(x-a[i-1])>1e-8);
+ let n=xs.length,nd=2*n,K=Array.from({length:nd},()=>Array(nd).fill(0)),F=Array(nd).fill(0);
+ const idx=x=>xs.findIndex(z=>Math.abs(z-x)<1e-8);
+ for(let e=0;e<n-1;e++){let le=xs[e+1]-xs[e],base=[[12,6*le,-12,6*le],[6*le,4*le*le,-6*le,2*le*le],[-12,-6*le,12,-6*le],[6*le,2*le*le,-6*le,4*le*le]],k=base.map(row=>row.map(v=>v*EI/(le**3))),d=[2*e,2*e+1,2*e+2,2*e+3];for(let i=0;i<4;i++)for(let j=0;j<4;j++)K[d[i]][d[j]]+=k[i][j]}
+ // Distributed load equivalent nodal forces using 3-point Gauss integration.
+ const gp=[-Math.sqrt(3/5),0,Math.sqrt(3/5)],gw=[5/9,8/9,5/9];
+ for(let e=0;e<n-1;e++){let xa=xs[e],xb=xs[e+1],le=xb-xa,d=[2*e,2*e+1,2*e+2,2*e+3];for(let l of loads)if(l.type==='distributed'&&xa>=l.a-1e-8&&xb<=l.b+1e-8){for(let g=0;g<3;g++){let r=(gp[g]+1)/2,x=xa+r*le,t=(x-l.a)/(l.b-l.a),q=l.q0+(l.q1-l.q0)*t,Ns=shape(r,le),fac=-q*gw[g]*le/2;for(let j=0;j<4;j++)F[d[j]]+=Ns[j]*fac}}}
+ // Point loads and clockwise-positive applied couples distributed to element shape functions.
+ for(let l of loads){let e=Math.min(n-2,Math.max(0,idx(l.x)));if(l.type==='point'||l.type==='moment'){let xa=xs[e],le=xs[e+1]-xa,r=(l.x-xa)/le,Ns=shape(r,le),d=[2*e,2*e+1,2*e+2,2*e+3];if(l.type==='point'){for(let j=0;j<4;j++)F[d[j]]-=l.P*Ns[j]}else{F[2*idx(l.x)+1]-=l.M}}}
+ let fixed=new Set();for(let s of supports){let i=idx(s.x);fixed.add(2*i);if(s.type==='fixed')fixed.add(2*i+1)}
+ let free=Array.from({length:nd},(_,i)=>i).filter(i=>!fixed.has(i)),Kff=free.map(i=>free.map(j=>K[i][j])),Ff=free.map(i=>F[i]),dof=Array(nd).fill(0),sol=gaussSolve(Kff,Ff);free.forEach((v,i)=>dof[v]=sol[i]);
+ let R=K.map((row,i)=>row.reduce((s,v,j)=>s+v*dof[j],0)-F[i]);
+ let reactions=supports.map(s=>({x:s.x,type:s.type,V:R[2*idx(s.x)],M:s.type==='fixed'?R[2*idx(s.x)+1]:0}));
+ // Equilibrium-based V and M functions; distributed loads are integrated exactly on their active interval.
+ function qPartial(l,x){let z=Math.max(0,Math.min(l.b-l.a,x-l.a)),k=(l.q1-l.q0)/(l.b-l.a),W=l.q0*z+k*z*z/2,first=l.q0*z*z/2+k*z*z*z/3;return {W,first}}
+ function V(x,side='right'){let v=reactions.reduce((s,r)=>s+r.V*(r.x<x-1e-8||(side==='right'&&Math.abs(r.x-x)<1e-8)?1:0),0);for(let l of loads){if(l.type==='point'&&(l.x<x-1e-8||(side==='right'&&Math.abs(l.x-x)<1e-8)))v-=l.P;if(l.type==='distributed'&&x>l.a)v-=qPartial(l,x).W}return v}
+ function M(x,side='right'){let m=0;for(let r of reactions){let included=r.x<x-1e-8||(side==='right'&&Math.abs(r.x-x)<1e-8);if(included)m+=r.V*(x-r.x)-r.M}for(let l of loads){if(l.type==='point'&&(l.x<x-1e-8||(side==='right'&&Math.abs(l.x-x)<1e-8)))m-=l.P*(x-l.x);if(l.type==='distributed'&&x>l.a){let z=qPartial(l,x),W=z.W,first=z.first;m-=W*(x-l.a)-first}if(l.type==='moment'&&(l.x<x-1e-8||(side==='right'&&Math.abs(l.x-x)<1e-8)))m+=l.M}return m}
+ let breaks=[...new Set([0,L,...supports.map(s=>s.x),...loads.flatMap(l=>l.type==='distributed'?[l.a,l.b]:[l.x])])].sort((a,b)=>a-b);
+ // Resolver V(x)=0 en cada tramo. Dentro de cada tramo V es cuadrática
+ // cuando existe carga distribuida lineal (o lineal/constante en los demás casos).
+ // La solución polinómica detecta cruces +/−, −/+ y raíces tangenciales.
+ let zeroShear=[],vmax=0;
+ const addZero=(x,side='right')=>{
+  if(x<-1e-8||x>L+1e-8)return;
+  let xx=Math.max(0,Math.min(L,x)),mm=M(xx,side);
+  if(!zeroShear.some(p=>Math.abs(p.x-xx)<1e-6&&Math.abs(p.vMoment-mm)<1e-6))zeroShear.push({x:xx,vMoment:mm});
+ };
+ for(let bi=0;bi<breaks.length-1;bi++){
+  let a=breaks[bi],b=breaks[bi+1],mid=(a+b)/2;
+  let f0=V(a,'right'),fm=V(mid),f1=V(b,'left');
+  vmax=Math.max(vmax,Math.abs(f0),Math.abs(fm),Math.abs(f1));
+  // V(t)=A*t²+B*t+C, con t=(x-a)/(b-a).
+  let A=2*(f1+f0-2*fm),B=f1-f0-A,C=f0,roots=[];
+  const tol=1e-9;
+  if(Math.abs(A)<tol&&Math.abs(B)<tol&&Math.abs(C)<tol){roots.push(0,1);}
+  else if(Math.abs(A)<tol){if(Math.abs(B)>=tol)roots.push(-C/B);}
+  else{
+   let disc=B*B-4*A*C;
+   if(disc>=-tol){disc=Math.max(0,disc);let sd=Math.sqrt(disc);roots.push((-B-sd)/(2*A));if(sd>tol)roots.push((-B+sd)/(2*A));}
+  }
+  for(let t of roots)if(t>=-1e-8&&t<=1+1e-8){let side=t<=1e-8?'right':t>=1-1e-8?'left':'right';addZero(a+Math.max(0,Math.min(1,t))*(b-a),side)}
+ }
+ let mValues=[];for(let x of breaks){mValues.push({x,v:M(x,'left')},{x,v:M(x,'right')});vmax=Math.max(vmax,Math.abs(V(x,'left')),Math.abs(V(x,'right')))}
+ for(let p of zeroShear)mValues.push({x:p.x,v:p.vMoment});
+ for(let i=0;i<=5000;i++){let x=L*i/5000;mValues.push({x,v:M(x)})}
+ mValues=mValues.filter(p=>Number.isFinite(p.v));let mPos=mValues.reduce((a,b)=>b.v>a.v?b:a,{x:0,v:-Infinity}),mNeg=mValues.reduce((a,b)=>b.v<a.v?b:a,{x:0,v:Infinity});mmax=Math.max(Math.abs(mPos.v),Math.abs(mNeg.v));
+ let sumFy=reactions.reduce((s,r)=>s+r.V,0)-loads.reduce((s,l)=>s+(l.type==='point'?l.P:l.type==='distributed'?(l.q0+l.q1)*(l.b-l.a)/2:0),0);
+ $('rCount').textContent=String(reactions.length);$('vmax').textContent=fmt(vmax);$('mmax').textContent=fmt(mmax);$('mpos').textContent=fmt(Math.max(0,mPos.v));$('xmpos').textContent='x = '+fmt(mPos.x)+' m';$('mneg').textContent=fmt(Math.min(0,mNeg.v));$('xmneg').textContent='x = '+fmt(mNeg.x)+' m';$('uV').textContent=unit();$('uM').textContent=unit()+'·m';$('check').textContent=Math.abs(sumFy)<1e-5?'OK':'Revisar';
+ let stations=[...new Set([0,L,...supports.map(s=>s.x),...loads.flatMap(l=>l.type==='distributed'?[l.a,l.b]:[l.x])])].sort((a,b)=>a-b);
+ let eventAt=x=>{let e=[];if(supports.some(a=>Math.abs(a.x-x)<1e-8))e.push('Apoyo');loads.forEach(l=>{if(l.type==='distributed'&&(Math.abs(l.a-x)<1e-8||Math.abs(l.b-x)<1e-8))e.push('Límite de carga distribuida');else if(l.type!=='distributed'&&Math.abs(l.x-x)<1e-8)e.push(l.type==='point'?'Carga puntual':'Momento');});if(x===0)e.push('Inicio');if(Math.abs(x-L)<1e-8)e.push('Final');return [...new Set(e)].join(' / ')||'Cambio de tramo'};
+ let segmentRows=stations.slice(0,-1).map((a,i)=>{let b=stations[i+1];return `<tr><td>${i+1}</td><td>${fmt(a)}</td><td>${fmt(b)}</td><td><b>${fmt(b-a)} m</b></td><td>${eventAt(a)} → ${eventAt(b)}</td></tr>`}).join('');
+ $('results').innerHTML=`<h3>Reacciones en los apoyos</h3><table><tr><th>Apoyo</th><th>x (m)</th><th>Reacción vertical</th><th>Momento reacción</th></tr>${reactions.map(r=>`<tr><td>${r.type==='fixed'?'Empotramiento':r.type==='pin'?'Articulado':'Rodillo'}</td><td>${fmt(r.x)}</td><td>${fmt(r.V)} ${unit()}</td><td>${fmt(r.M)} ${unit()}·m</td></tr>`).join('')}</table><h3>Tramos de la viga</h3><table><tr><th>Tramo</th><th>Desde x</th><th>Hasta x</th><th>Longitud</th><th>Delimitado por</th></tr>${segmentRows}</table><h3>Extremos del momento flector</h3><table><tr><th>Resultado</th><th>Valor</th><th>Ubicación</th></tr><tr><td>Máximo positivo</td><td id="momentPositiveValue">${fmt(Math.max(0,mPos.v))} ${unit()}·m</td><td id="momentPositiveX">x = ${fmt(mPos.x)} m</td></tr><tr><td>Mínimo negativo</td><td id="momentNegativeValue">${fmt(Math.min(0,mNeg.v))} ${unit()}·m</td><td id="momentNegativeX">x = ${fmt(mNeg.x)} m</td></tr><tr><td>Máximo absoluto</td><td>${fmt(mmax)} ${unit()}·m</td><td>Según extremo gobernante</td></tr></table><h3>Momento en todos los puntos donde V(x) = 0</h3><table><tr><th>Punto</th><th>Distancia desde el origen x</th><th>Momento M(x)</th><th>Signo</th></tr>${zeroShear.length?zeroShear.sort((a,b)=>a.x-b.x).map((p,i)=>`<tr><td>${i+1}</td><td>${fmt(p.x)} m</td><td><b>${fmt(p.vMoment*(momentDiagramInverted?-1:1))} ${unit()}·m</b></td><td>${p.vMoment*(momentDiagramInverted?-1:1)>1e-7?'Positivo (+)':p.vMoment*(momentDiagramInverted?-1:1)< -1e-7?'Negativo (−)':'Nulo (0)'}</td></tr>`).join(''):'<tr><td colspan="4">No se encontró un punto interior con V(x)=0 en los tramos analizados.</td></tr>'}</table><p class="hint">Se buscan cruces de cortante en ambos sentidos: positivo a negativo y negativo a positivo. ΣFy = ${fmt(sumFy)} ${unit()} · EI = ${fmt(EI)}. La división por materiales es solo una etiqueta geométrica y no participa en este análisis.</p>`;
+ last={reactions,V,M,breaks,mPos,mNeg,zeroShear};drawBeam();$('shearPanel').classList.remove('compactDiagram');$('momentPanel').classList.remove('compactDiagram');drawGraph('shear',L,x=>V(x),breaks,'V',unit(),true);drawGraph('moment',L,x=>M(x),breaks,'M',unit()+'·m',false);if(profileParts.length){updateStressModule()}$('status').textContent='Cálculo completado. Se identificaron tramos y extremos de momento.';
+ } catch(err) { $('status').textContent='No se pudo resolver: '+err.message; alert('No se pudo resolver la estructura: '+err.message); }
+}
+function drawBeam(){
+ const c=$('beam'),ctx=c.getContext('2d'),w=c.width,h=c.height;
+ ctx.clearRect(0,0,w,h);
+ const L=num('L'); if(!(L>0)) return;
+ const x0=78,x1=w-78,span=x1-x0,X=x=>x0+(x/L)*span;
+ const beamY=270,beamH=22,beamTop=beamY-beamH/2,beamBottom=beamY+beamH/2;
+ const dimY=405,loadBase=beamTop-20;
+ const palette=['#f2ad58','#e58b75','#59c7e8','#b89af5','#69d6a0','#f078a8','#e2c45e'];
+ const text=(str,x,y,color,size=14,align='left')=>{ctx.fillStyle=color;ctx.font=`700 ${size}px Arial`;ctx.textAlign=align;ctx.fillText(str,x,y);ctx.textAlign='left'};
+ const arrow=(x,y1,y2,color,weight=2.5,head=8)=>{
+  ctx.strokeStyle=color;ctx.fillStyle=color;ctx.lineWidth=weight;ctx.lineCap='round';
+  ctx.beginPath();ctx.moveTo(x,y1);ctx.lineTo(x,y2);ctx.stroke();
+  const d=Math.sign(y2-y1)||1;ctx.beginPath();ctx.moveTo(x,y2);ctx.lineTo(x-head*.62,y2-d*head);ctx.lineTo(x+head*.62,y2-d*head);ctx.closePath();ctx.fill();
+ };
+ // Viga segmentada: cada material ocupa su tramo y conserva un pequeño relieve visual.
+ const cuts=[0,L,...materialSegments.flatMap(z=>[z.a,z.b])].filter(x=>x>=0&&x<=L).sort((a,b)=>a-b).filter((x,i,a)=>!i||Math.abs(x-a[i-1])>1e-8);
+ for(let i=0;i<cuts.length-1;i++){
+  const a=cuts[i],b=cuts[i+1],mid=(a+b)/2,seg=materialSegments.find(z=>mid>=z.a-1e-8&&mid<=z.b+1e-8);
+  const fill=seg?(seg.type==='A'?'#168ca6':'#c38a39'):'#b9cbe0';
+  ctx.fillStyle=fill;ctx.fillRect(X(a),beamTop,X(b)-X(a),beamH);
+  ctx.strokeStyle=seg?(seg.type==='A'?'#54d6e8':'#f2bd63'):'#e5edf7';ctx.lineWidth=1.5;ctx.strokeRect(X(a),beamTop,X(b)-X(a),beamH);
+ }
+ // Nombres de material centrados sobre su tramo.
+ materialSegments.forEach(z=>{const xa=X(z.a),xb=X(z.b),col=z.type==='A'?'#64d9e8':'#f4c46e';
+  if(xb-xa>55) text('MATERIAL '+z.type,(xa+xb)/2,beamTop-7,col,12,'center');
+ });
+ // Cargas distribuidas: línea de referencia elevada, envolvente proporcional y flechas hacia abajo/arriba.
+ loads.forEach((l,i)=>{
+  const color=palette[i%palette.length];ctx.strokeStyle=color;ctx.fillStyle=color;ctx.lineWidth=2.2;ctx.lineJoin='round';
+  if(l.type==='distributed'){
+   const xa=X(l.a),xb=X(l.b),up=(l.q0<0||l.q1<0),sgn=up?-1:1;
+   const q0=Math.abs(l.q0),q1=Math.abs(l.q1),qmax=Math.max(q0,q1,1e-9),heightMax=112;
+   const base=up?beamBottom+13:loadBase;
+   const yAt=t=>base-sgn*(q0+(q1-q0)*t)/qmax*heightMax;
+   // Línea de base continua, justo en las puntas de las flechas y separada de la viga.
+   ctx.setLineDash([]);ctx.lineWidth=2.2;ctx.beginPath();ctx.moveTo(xa,base);ctx.lineTo(xb,base);ctx.stroke();
+   // Envolvente superior de la carga triangular/trapezoidal.
+   ctx.lineWidth=2.8;ctx.beginPath();ctx.moveTo(xa,yAt(0));ctx.lineTo(xb,yAt(1));ctx.stroke();
+   const count=Math.max(3,Math.min(18,Math.round((xb-xa)/34)));
+   for(let j=0;j<=count;j++){
+    const t=j/count,x=xa+(xb-xa)*t,mag=q0+(q1-q0)*t;
+    if(mag<1e-8) continue;
+    const tip=base,tail=yAt(t);
+    arrow(x,tail,tip,color,2.1,7);
+   }
+   // La línea inferior remata las puntas: continua, horizontal y sin tocar la viga.
+   ctx.setLineDash([]);ctx.lineWidth=2.2;ctx.beginPath();ctx.moveTo(xa,base);ctx.lineTo(xb,base);ctx.stroke();
+   const label=`q = ${fmt(q0)} → ${fmt(q1)} ${unit()}/m`;
+   text(label,(xa+xb)/2,up?base+24:Math.min(yAt(0),yAt(1))-9,color,14,'center');
+   // Pequeños círculos de inicio y fin para delimitar el tramo cargado.
+   [xa,xb].forEach((x,j)=>{ctx.beginPath();ctx.arc(x,yAt(j),5,0,Math.PI*2);ctx.fill();});
+  }
+ });
+ // Cargas puntuales: flecha limpia, con la punta terminando en el borde de referencia y sin cruzar la viga.
+ loads.forEach((l,i)=>{if(l.type!=='point')return;const color=palette[i%palette.length],x=X(l.x),up=l.P<0;
+  const tip=up?beamBottom+18:loadBase,tail=up?tip+78:tip-78;
+  arrow(x,tail,tip,color,3.4,11);
+  ctx.beginPath();ctx.arc(x,tip,4.2,0,Math.PI*2);ctx.fillStyle=color;ctx.fill();
+  text(`P = ${fmt(Math.abs(l.P))} ${unit()}`,x+13,up?tail+3:tail-8,color,14);
+ });
+ // Momentos concentrados: arcos grandes, con sentido y etiqueta legible por encima de la viga.
+ loads.forEach((l,i)=>{if(l.type!=='moment')return;const color=palette[i%palette.length],x=X(l.x),cy=beamBottom+24,r=25,cw=l.M>0;
+  ctx.strokeStyle=color;ctx.fillStyle=color;ctx.lineWidth=3.2;ctx.lineCap='round';
+  const a0=cw?-.85:Math.PI-.85,a1=cw?4.0:Math.PI+4.0;
+  ctx.beginPath();ctx.arc(x,cy,r,a0,a1,!cw);ctx.stroke();
+  const ang=a1,ex=x+r*Math.cos(ang),ey=cy+r*Math.sin(ang),dir=cw?1:-1;
+  ctx.beginPath();ctx.moveTo(ex,ey);ctx.lineTo(ex-10*Math.cos(ang-dir*.55),ey-10*Math.sin(ang-dir*.55));ctx.lineTo(ex-10*Math.cos(ang+dir*.55),ey-10*Math.sin(ang+dir*.55));ctx.closePath();ctx.fill();
+  text(`M = ${fmt(Math.abs(l.M))} ${unit()}·m ${cw?'↻':'↺'}`,x,cy+r+17,color,13,'center');
+ });
+ // Apoyos con símbolos normalizados, siempre por debajo de la viga.
+ supports.forEach(s=>{const x=X(s.x);ctx.strokeStyle='#dce8f6';ctx.fillStyle='#dce8f6';ctx.lineWidth=2.2;
+  if(s.type==='fixed'){
+   ctx.fillStyle='#a9bbd2';ctx.fillRect(x-5,beamBottom,10,34);
+   ctx.strokeStyle='#9aabc2';for(let yy=beamBottom+3;yy<beamBottom+34;yy+=7){ctx.beginPath();ctx.moveTo(x-6,yy);ctx.lineTo(x-17,yy+6);ctx.stroke();}
+   text('EMP.',x,beamBottom+49,'#b8c9dd',11,'center');
+  }else{
+   const apex=beamBottom+2,base=beamBottom+42;
+   ctx.beginPath();ctx.moveTo(x,apex);ctx.lineTo(x-17,base);ctx.lineTo(x+17,base);ctx.closePath();ctx.fill();ctx.stroke();
+   if(s.type==='roller'){
+    [-8,8].forEach(dx=>{ctx.beginPath();ctx.arc(x+dx,base+6,4,0,Math.PI*2);ctx.fillStyle='#0a1627';ctx.fill();ctx.strokeStyle='#dce8f6';ctx.stroke();});
+    text('RODILLO',x,base+38,'#b8c9dd',12,'center');
+   }else text('ARTIC.',x,base+28,'#b8c9dd',12,'center');
+  }
+ });
+ // Cotas horizontales: estaciones de apoyos y acciones, más longitud total.
+ const stations=[...new Set([0,L,...supports.map(s=>s.x),...loads.flatMap(l=>l.type==='distributed'?[l.a,l.b]:[l.x])].filter(x=>Number.isFinite(x)&&x>=0&&x<=L).map(x=>Number(x.toFixed(6))))].sort((a,b)=>a-b);
+ ctx.strokeStyle='#8fa5c2';ctx.fillStyle='#b8c9dd';ctx.lineWidth=1.5;
+ ctx.beginPath();ctx.moveTo(x0,dimY);ctx.lineTo(x1,dimY);ctx.stroke();
+ stations.forEach(x=>{const px=X(x);ctx.beginPath();ctx.moveTo(px,dimY-6);ctx.lineTo(px,dimY+6);ctx.stroke();ctx.setLineDash([3,5]);ctx.beginPath();ctx.moveTo(px,beamBottom+70);ctx.lineTo(px,dimY-7);ctx.stroke();ctx.setLineDash([]);text(fmt(x,2),px,dimY+20,'#b8c9dd',11,'center');});
+ text(`L = ${fmt(L,2)} m`,(x0+x1)/2,dimY+43,'#e6eef8',12,'center');
+}
+
+let momentDiagramInverted=false;
+function refreshMomentSignDisplays(){
+ if(!last)return;
+ const sign=momentDiagramInverted?-1:1;
+ const pos=sign>0?last.mPos:last.mNeg;
+ const neg=sign>0?last.mNeg:last.mPos;
+ const posValue=Math.max(0,pos.v),negValue=Math.min(0,neg.v);
+ if($('mpos'))$('mpos').textContent=fmt(posValue);
+ if($('xmpos'))$('xmpos').textContent='x = '+fmt(pos.x)+' m';
+ if($('mneg'))$('mneg').textContent=fmt(negValue);
+ if($('xmneg'))$('xmneg').textContent='x = '+fmt(neg.x)+' m';
+ const pv=$('momentPositiveValue'),px=$('momentPositiveX'),nv=$('momentNegativeValue'),nx=$('momentNegativeX');
+ if(pv)pv.textContent=fmt(posValue)+' '+unit()+'·m';
+ if(px)px.textContent='x = '+fmt(pos.x)+' m';
+ if(nv)nv.textContent=fmt(negValue)+' '+unit()+'·m';
+ if(nx)nx.textContent='x = '+fmt(neg.x)+' m';
+}
+function toggleMomentDiagram(){
+ momentDiagramInverted=!momentDiagramInverted;
+ const btn=$('flipMomentBtn'),hint=$('momentConventionHint');
+ if(btn)btn.textContent=momentDiagramInverted?'Volver al diagrama original':'Invertir diagrama';
+ if(hint)hint.textContent=momentDiagramInverted?'Diagrama y verificación invertidos: M(+) y M(−) intercambian sus signos; se actualizan extremos, fibras y esfuerzos.':'Convención actual: signo original del análisis y verificación.';
+ if(last){refreshMomentSignDisplays();const L=num('L');drawGraph('moment',L,x=>last.M(x),last.breaks,'M',unit()+'·m',false);updateStressModule()}
+}
+function drawGraph(id,L,fn,breaks,label,u,isShear){
+ if(!isShear && materialSegments.length) breaks=[...new Set([...breaks,...materialSegments.flatMap(z=>[z.a,z.b])])].sort((a,b)=>a-b);
+ let c=$(id),ctx=c.getContext('2d'),w=c.width,h=c.height;ctx.clearRect(0,0,w,h);
+ const displayFactor=(!isShear&&momentDiagramInverted)?-1:1,shown=v=>v*displayFactor;
+ let left=65,right=22,top=20,bottom=62,pw=w-left-right,ph=h-top-bottom,vals=[];
+ const dimY=top+ph+34;
+ for(let i=0;i<=900;i++)vals.push(shown(fn(L*i/900)));
+ for(let x of breaks)vals.push(shown(isShear?last.V(x,'left'):last.M(x,'left')),shown(isShear?last.V(x,'right'):last.M(x,'right')));
+ let max=Math.max(1,...vals.map(Math.abs))*1.2,X=x=>left+x/L*pw,Y=v=>top+(max-v)/(2*max)*ph,zero=Y(0);
+ ctx.strokeStyle='#263a55';ctx.lineWidth=1;ctx.font='18px Arial';
+ // Cuadrícula fina de referencia: subdivisiones sin numeración.
+ ctx.save();ctx.strokeStyle='rgba(91,119,153,.16)';ctx.lineWidth=.7;
+ for(let i=0;i<=20;i++){let yy=top+ph*i/20;ctx.beginPath();ctx.moveTo(left,yy);ctx.lineTo(w-right,yy);ctx.stroke()}
+ for(let i=0;i<=25;i++){let xx=left+pw*i/25;ctx.beginPath();ctx.moveTo(xx,top);ctx.lineTo(xx,top+ph);ctx.stroke()}
+ ctx.restore();
+ // Líneas principales y sus escalas numéricas se mantienen.
+ for(let i=0;i<=4;i++){let yy=top+ph*i/4;ctx.beginPath();ctx.moveTo(left,yy);ctx.lineTo(w-right,yy);ctx.stroke();ctx.fillStyle='#9aabc2';ctx.textAlign='right';ctx.fillText(fmt(max-i*(max/2),1),left-9,yy+4)}
+ for(let i=0;i<=5;i++){let x=L*i/5,xx=X(x);ctx.beginPath();ctx.moveTo(xx,top);ctx.lineTo(xx,top+ph);ctx.stroke();ctx.fillStyle='#9aabc2';ctx.fillText(fmt(x,2),xx-22,top+ph+22)}
+ ctx.strokeStyle='#879ab3';ctx.beginPath();ctx.moveTo(left,zero);ctx.lineTo(w-right,zero);ctx.stroke();
+ const sideVal=(x,side)=>shown(isShear?last.V(x,side):last.M(x,side)),segments=[];
+ for(let j=0;j<breaks.length-1;j++){let a=breaks[j],b=breaks[j+1],arr=[{x:a,v:sideVal(a,'right')}],count=Math.max(18,Math.ceil((b-a)/L*240));for(let k=1;k<count;k++){let x=a+(b-a)*k/count;arr.push({x,v:shown(fn(x))})}arr.push({x:b,v:sideVal(b,'left')});segments.push(arr)}
+ ctx.fillStyle=isShear?'rgba(88,148,255,.13)':'rgba(240,107,112,.10)';ctx.strokeStyle=isShear?'#5894ff':'#f06b70';ctx.lineWidth=3;
+ for(let arr of segments){ctx.beginPath();ctx.moveTo(X(arr[0].x),zero);for(let p of arr)ctx.lineTo(X(p.x),Y(p.v));ctx.lineTo(X(arr[arr.length-1].x),zero);ctx.closePath();ctx.fill();ctx.beginPath();arr.forEach((p,i)=>i?ctx.lineTo(X(p.x),Y(p.v)):ctx.moveTo(X(p.x),Y(p.v)));
+  if(!isShear){const mid=(arr[0].x+arr[arr.length-1].x)/2,mat=materialSegments.find(z=>mid>=z.a-1e-8&&mid<=z.b+1e-8);ctx.strokeStyle=mat?(mat.type==='A'?'#55cfe0':'#f0b64f'):'#f06b70';}else ctx.strokeStyle='#5894ff';ctx.stroke()}
+ for(let x of breaks){let a=sideVal(x,'left'),b=sideVal(x,'right');if(Math.abs(a-b)>1e-6){ctx.beginPath();ctx.moveTo(X(x),Y(a));ctx.lineTo(X(x),Y(b));ctx.stroke()}}
+
+ // Proyectar con líneas segmentadas los cambios de tramo y todos los puntos V=0.
+ // Estas guías son únicamente gráficas: no modifican valores, cargas ni cotas.
+ const roots=(last.zeroShear||[]).map(p=>p.x).filter(x=>x>1e-8&&x<L-1e-8);
+ const extremaX=(!isShear&&last)?[last.mPos?.x,last.mNeg?.x].filter(x=>Number.isFinite(x)&&x>1e-8&&x<L-1e-8):[];
+ const critical=[...new Set([...breaks,...roots,...extremaX].map(x=>Number(x.toFixed(8))))].sort((a,b)=>a-b);
+ ctx.save();
+ ctx.setLineDash([5,6]);
+ ctx.lineWidth=1.5;
+ ctx.strokeStyle='rgba(190,211,237,.62)';
+ for(const x of critical){
+  const xx=X(x);
+  ctx.beginPath();
+  ctx.moveTo(xx,top);
+  ctx.lineTo(xx,dimY+7);
+  ctx.stroke();
+ }
+ ctx.restore();
+
+ // En M(x), marcar cada extremo interior donde V(x)=0, positivo o negativo.
+ if(!isShear && last.zeroShear){
+  const labelRows=[];
+  const marked=[];
+  for(const p of last.zeroShear){
+   const xx=X(p.x),yy=Y(shown(p.vMoment));
+   ctx.fillStyle=shown(p.vMoment)>=0?'#48d5a0':'#f3bd57';
+   ctx.strokeStyle='#071522';ctx.lineWidth=2;
+   ctx.beginPath();ctx.arc(xx,yy,6,0,Math.PI*2);ctx.fill();ctx.stroke();
+   ctx.font='bold 14px Arial';ctx.fillStyle='#eaf1fb';
+   let row=0;while(labelRows.some(q=>Math.abs(q.x-xx)<190&&q.row===row))row=(row+1)%3;
+   labelRows.push({x:xx,row});marked.push({x:p.x,y:p.vMoment});
+   const align=xx>w*.72?'right':'left';ctx.textAlign=align;
+   const tx=align==='right'?xx-10:xx+10;
+   const ty=Math.max(top+16,Math.min(top+ph-8,yy-14-row*20));
+   ctx.fillText('V=0 · x='+fmt(p.x,2)+' · M='+fmt(shown(p.vMoment),2),tx,ty);
+  }
+  // Los extremos globales también se señalan, aunque no coincidan con una raíz interior de V.
+  for(const [key,p,color,label] of [['max',last.mPos,'#48d5a0','M máx.'],['min',last.mNeg,'#f3bd57','M mín.']]){
+   if(!p||!Number.isFinite(p.x)||p.x<0||p.x>L)continue;
+   const xx=X(p.x),yy=Y(shown(p.v));
+   ctx.fillStyle=color;ctx.strokeStyle='#071522';ctx.lineWidth=2;
+   ctx.beginPath();ctx.arc(xx,yy,6,0,Math.PI*2);ctx.fill();ctx.stroke();
+   if(!marked.some(q=>Math.abs(q.x-p.x)<1e-6)){
+    ctx.font='bold 14px Arial';ctx.fillStyle='#eaf1fb';
+    const align=xx>w*.72?'right':'left';ctx.textAlign=align;
+    const tx=align==='right'?xx-10:xx+10;
+    const ty=Math.max(top+16,Math.min(top+ph-8,yy-14-(key==='min'?20:0)));
+    ctx.fillText(label+' · x='+fmt(p.x,2)+' m · M='+fmt(shown(p.v),2),tx,ty);
+   }
+  }
+ }
+ // En V(x), resaltar sobre el eje los puntos donde la cortante se anula.
+ if(isShear && last.zeroShear){
+  for(const p of last.zeroShear){
+   const xx=X(p.x);
+   ctx.fillStyle='#48d5a0';ctx.strokeStyle='#071522';ctx.lineWidth=1.5;
+   ctx.beginPath();ctx.arc(xx,zero,5,0,Math.PI*2);ctx.fill();ctx.stroke();
+  }
+ }
+
+ // Valores laterales en discontinuidades, sin duplicar ni sumar magnitudes.
+ ctx.font='bold 14px Arial';ctx.fillStyle='#dce8f7';ctx.textAlign='left';
+ for(const x of breaks){
+  const vl=sideVal(x,'left'),vr=sideVal(x,'right');
+  if(Math.abs(vl-vr)>1e-6){
+   ctx.fillText(fmt(vl,2),Math.min(w-right-50,X(x)+5),Math.max(top+14,Y(vl)-8));
+   ctx.fillText(fmt(vr,2),Math.min(w-right-50,X(x)+5),Math.min(top+ph-3,Y(vr)+17));
+  }
+ }
+ // Las cotas inferiores conservan los tramos originales (breaks).
+ ctx.strokeStyle='#8fa5c2';ctx.fillStyle='#c5d4e7';ctx.lineWidth=1;ctx.font='bold 18px Arial';ctx.textAlign='center';
+ for(const x of critical){
+  const xx=X(x);
+  ctx.setLineDash([4,5]);ctx.beginPath();ctx.moveTo(xx,top+ph);ctx.lineTo(xx,dimY+5);ctx.stroke();ctx.setLineDash([]);
+  ctx.beginPath();ctx.moveTo(xx,dimY-5);ctx.lineTo(xx,dimY+5);ctx.stroke();
+ }
+ for(let i=0;i<breaks.length-1;i++){
+  const xa=X(breaks[i]),xb=X(breaks[i+1]),mid=(xa+xb)/2;
+  ctx.beginPath();ctx.moveTo(xa,dimY);ctx.lineTo(xb,dimY);ctx.stroke();
+  ctx.beginPath();ctx.moveTo(xa,dimY-4);ctx.lineTo(xa,dimY+4);ctx.moveTo(xb,dimY-4);ctx.lineTo(xb,dimY+4);ctx.stroke();
+  const txt=fmt(breaks[i+1]-breaks[i],2)+' m';
+  if(xb-xa>48){
+    ctx.fillText(txt,mid,dimY+25);
+   }else{
+    ctx.save();ctx.font='bold 15px Arial';ctx.fillText(txt,mid,dimY+25);ctx.restore();
+   }
+ }
+ ctx.textAlign='left';ctx.fillStyle='#9aabc2';ctx.font='bold 16px Arial';ctx.fillText(label+' ('+u+')',left+4,17);
+ ctx.textAlign='right';ctx.fillText('x (m)',w-right,dimY+48);
+
+}
+
+// Editor de secciones mediante áreas rectangulares compuestas (sumas y vaciados).
+let profileParts=[];
+function addProfileRect(){const b=Number($('rectW').value),h=Number($('rectH').value);if(!(b>0&&h>0&&Number.isFinite(b)&&Number.isFinite(h))){alert('Introduce una base y una altura positivas.');return}let center=0,bottom=0;if(profileParts.length){const positive=profileParts.filter(r=>r.sign>0);if(positive.length){const minX=Math.min(...positive.map(r=>r.x)),maxX=Math.max(...positive.map(r=>r.x+r.b));center=(minX+maxX)/2;bottom=Math.min(...positive.map(r=>r.y));}}const r={name:$('rectName').value||'Parte',b,h,x:center-b/2,y:profileParts.length?bottom-h:0,sign:1};profileParts.push(r);renderProfile()}
+function removeProfileRect(i){profileParts.splice(i,1);renderProfile()}
+function profilePreset(type){
+ if(type==='rect')profileParts=[{name:'Rectángulo',b:4,h:6,x:0,y:0,sign:1}];
+ if(type==='T')profileParts=[{name:'Base horizontal',b:4,h:1,x:0,y:0,sign:1},{name:'Alma vertical',b:1.2,h:5,x:1.4,y:-5,sign:1}];
+ if(type==='cross')profileParts=[{name:'Montante',b:1.4,h:6,x:1.3,y:0,sign:1},{name:'Travesaño',b:4,h:1.4,x:0,y:2.3,sign:1}];
+ if(type==='hollow')profileParts=[{name:'Contorno',b:4,h:4,x:0,y:0,sign:1},{name:'Hueco',b:2.8,h:2.8,x:.6,y:.6,sign:-1}];renderProfile();
+}
+function profileProperties(){let A=0,Sx=0,Sy=0;for(const r of profileParts){let a=r.sign*r.b*r.h;A+=a;Sx+=a*(r.x+r.b/2);Sy+=a*(r.y+r.h/2)}if(A<=1e-9)throw Error('El área neta debe ser positiva. Revisa los huecos y las partes añadidas.');let cx=Sx/A,cy=Sy/A,Ix=0,Iy=0,Ixy=0;for(const r of profileParts){let a=r.sign*r.b*r.h,dx=r.x+r.b/2-cx,dy=r.y+r.h/2-cy;Ix+=r.sign*(r.b*r.h**3/12)+a*dy**2;Iy+=r.sign*(r.h*r.b**3/12)+a*dx**2;Ixy+=a*dx*dy}let ymin=Math.min(...profileParts.filter(r=>r.sign>0).map(r=>r.y)),ymax=Math.max(...profileParts.filter(r=>r.sign>0).map(r=>r.y+r.h));return {A,cx,cy,Ix,Iy,Ixy,Y1:cy-ymin,Y2:ymax-cy,ymin,ymax}}
+function renderProfile(){ $('profileParts').innerHTML=profileParts.length?'<table><tr><th>Parte</th><th>Operación</th><th>b × h</th><th></th></tr>'+profileParts.map((r,i)=>`<tr><td>${r.name}</td><td>${r.sign>0?'Añadir +':'Hueco −'}</td><td>${fmt(r.b,2)} × ${fmt(r.h,2)}</td><td><button class="danger" onclick="removeProfileRect(${i})">×</button></td></tr>`).join('')+'</table>':'<div class="empty">No hay partes en el perfil.</div>';drawProfile();}
+function drawProfile(){let c=$('profileCanvas');if(!c)return;let ctx=c.getContext('2d'),w=c.width,h=c.height;ctx.clearRect(0,0,w,h);ctx.fillStyle='#0a1627';ctx.fillRect(0,0,w,h);if(!profileParts.length){ctx.fillStyle='#9aabc2';ctx.font='16px Arial';ctx.fillText('Añade rectángulos para construir la sección',25,40);$('profileResults').innerHTML='<small>Propiedades geométricas</small><div class="empty">Pendiente de definir sección.</div>';return}let minX=Math.min(0,...profileParts.map(r=>r.x)),maxX=Math.max(...profileParts.map(r=>r.x+r.b)),minY=Math.min(0,...profileParts.map(r=>r.y)),maxY=Math.max(...profileParts.map(r=>r.y+r.h)),scale=Math.min((w-100)/(maxX-minX||1),(h-65)/(maxY-minY||1)),ox=(w-(maxX-minX)*scale)/2-minX*scale,oy=h-35+minY*scale;for(const r of profileParts){let x=ox+r.x*scale,y=oy-(r.y+r.h)*scale;ctx.fillStyle=r.sign>0?'rgba(57,204,224,.72)':'rgba(240,107,112,.8)';ctx.fillRect(x,y,r.b*scale,r.h*scale);ctx.strokeStyle='#eaf1fb';ctx.lineWidth=2;ctx.strokeRect(x,y,r.b*scale,r.h*scale)}try{let p=profileProperties(),cx=ox+p.cx*scale,cy=oy-p.cy*scale;ctx.setLineDash([7,5]);ctx.strokeStyle='#f3bd57';ctx.beginPath();ctx.moveTo(cx,15);ctx.lineTo(cx,h-25);ctx.moveTo(25,cy);ctx.lineTo(w-25,cy);ctx.stroke();ctx.setLineDash([]);ctx.fillStyle='#f3bd57';ctx.font='bold 13px Arial';ctx.fillText('Centroide',cx+7,cy-8);$('profileResults').innerHTML=`<small>Propiedades geométricas · unidades según dimensiones ingresadas</small><table><tr><td>Área neta A</td><td><b>${fmt(p.A,3)}</b></td></tr><tr><td>Centroide x̄</td><td>${fmt(p.cx,3)}</td></tr><tr><td>Centroide ȳ</td><td>${fmt(p.cy,3)}</td></tr><tr><td>Y₁ (E.N. al borde inferior)</td><td>${fmt(p.Y1,3)}</td></tr><tr><td>Y₂ (E.N. al borde superior)</td><td>${fmt(p.Y2,3)}</td></tr><tr><td>Inercia Iₓ</td><td><b>${fmt(p.Ix,3)}</b></td></tr><tr><td>Inercia Iᵧ</td><td>${fmt(p.Iy,3)}</td></tr></table><div class="hint">Iₓ e Iᵧ se calculan respecto a los ejes centroidales paralelos a los lados del perfil. Convención: Y₁ desde el eje neutro al borde inferior y Y₂ al borde superior.</div>`}catch(e){$('profileResults').innerHTML='<small>Propiedades geométricas</small><div class="message">'+e.message+'</div>'}try{updateStressModule()}catch(e){}}
+
+
+// Verificación flexional y distribución de esfuerzos sobre geometría real.
+// La sección se integra por bandas horizontales definidas por los límites de los rectángulos.
+function getProfileBands(){
+ if(!profileParts.length) throw Error('Define primero el perfil transversal.');
+ const p=profileProperties(), ys=[p.ymin,p.ymax,p.cy];
+ profileParts.forEach(r=>{if(r.sign>0){ys.push(r.y,r.y+r.h)}});
+ const levels=[...new Set(ys)].sort((a,b)=>a-b);
+ const bands=[];
+ for(let i=0;i<levels.length-1;i++){
+  const y0=levels[i],y1=levels[i+1],ym=(y0+y1)/2;
+  const active=profileParts.filter(r=>ym>=r.y-1e-9 && ym<=r.y+r.h+1e-9);
+  const xcuts=[...new Set(active.flatMap(r=>[r.x,r.x+r.b]))].sort((a,b)=>a-b);
+  let width=0;
+  for(let k=0;k<xcuts.length-1;k++){
+   const xa=xcuts[k],xb=xcuts[k+1],xm=(xa+xb)/2;
+   const occupancy=active.reduce((v,r)=>v+(xm>=r.x-1e-9&&xm<=r.x+r.b+1e-9?r.sign:0),0);
+   if(occupancy>0)width+=xb-xa;
+  }
+  if(width>1e-9) bands.push({y0,y1,width});
+ }
+ return {p,bands};
+}
+function momentToKgfCmFactor(){
+ const u=unit();
+ if(u==='tf')return 100000;
+ if(u==='kgf')return 100;
+ if(u==='N')return 10;
+ return 101971.621298; // kN·m -> kgf·cm
+}
+function stressForMoment(M,whichFiber,p){
+ const Y=whichFiber==='top'?p.Y2:p.Y1;
+ return Math.abs(M)*momentToKgfCmFactor()*Y/p.Ix;
+}
+
+function materialMomentExtrema(type){
+ if(!last) return {pos:null,neg:null};
+ const segs=materialSegments.filter(s=>s.type===type);
+ if(!segs.length) return {pos:null,neg:null};
+ const vals=[];
+ for(const s of segs){
+  // Se conserva el barrido numérico original para no alterar los esfuerzos
+  // de verificación; se añaden también los límites y puntos V(x)=0.
+  const xs=[s.a,s.b,...last.breaks.filter(x=>x>s.a+1e-8&&x<s.b-1e-8),...((last.zeroShear||[]).map(z=>z.x).filter(x=>x>s.a+1e-8&&x<s.b-1e-8))];
+  for(let i=0;i<=1200;i++)xs.push(s.a+(s.b-s.a)*i/1200);
+  [...new Set(xs.map(x=>Number(x.toFixed(10))))].forEach(x=>vals.push({x,M:last.M(x)*(momentDiagramInverted?-1:1),type}));
+ }
+ const pos=vals.filter(v=>v.M>1e-8).reduce((a,b)=>!a||b.M>a.M?b:a,null);
+ const neg=vals.filter(v=>v.M< -1e-8).reduce((a,b)=>!a||b.M<a.M?b:a,null);
+ return {pos,neg};
+}
+function getAllowable(material,kind){
+ const id='adm'+material+kind;
+ const v=Number($(id).value);
+ return Number.isFinite(v)&&v>0?v:null;
+}
+
+function buildStressCases(){
+ if(!last) throw Error('Primero calcula la viga.');
+ const p=profileProperties(),out=[];
+ ['A','B'].forEach(mat=>{
+  const ex=materialMomentExtrema(mat);
+  // La orientación invertida del dibujo NO debe intercambiar las fibras.
+  // Se conserva la convención del ingeniero: M(+) comprime arriba y tracciona
+  // abajo; M(-) comprime abajo y tracciona arriba. Al invertir, se cambia qué
+  // extremo del análisis alimenta cada signo mostrado, pero no se vuelven a
+  // permutar Y1/Y2 ni tracción/compresión.
+  const specs=[
+   {sign:'+',key:'pos',kind:'C',fiber:'top',label:'M(+) · Compresión · Y₂'},
+   {sign:'+',key:'pos',kind:'T',fiber:'bottom',label:'M(+) · Tracción · Y₁'},
+   {sign:'−',key:'neg',kind:'C',fiber:'bottom',label:'M(−) · Compresión · Y₁'},
+   {sign:'−',key:'neg',kind:'T',fiber:'top',label:'M(−) · Tracción · Y₂'}
+  ];
+  specs.forEach(s=>{
+   const item=ex[s.key];
+   // La tabla utiliza el signo de la convención activa; la magnitud procede
+   // del extremo correspondiente y nunca se cambia la fibra asociada.
+   const effectiveM=item?(s.sign==='+'?Math.abs(item.M):-Math.abs(item.M)):null;
+   const adm=getAllowable(mat,s.kind);
+   const stress=item?stressForMoment(effectiveM,s.fiber,p):null;
+   const fails=(stress!==null&&adm!==null&&stress>adm);
+   const utilization=(stress!==null&&adm!==null)
+    ?Math.abs((stress-adm)/adm)*100:null;
+   out.push({mat,sign:s.sign,M:effectiveM,x:item?item.x:null,
+    kind:s.kind,fiber:s.fiber,label:s.label,stress,adm,pct:null,utilization,
+    fails,available:!!item});
+  });
+ });
+ // Regla condicional:
+ // - Si todos cumplen, calcular la diferencia relativa en todos los casos.
+ // - Si existe alguna falla, calcular el exceso únicamente en los casos que fallan.
+ const hasFailures=out.some(r=>r.fails);
+ out.forEach(r=>{
+  if(hasFailures){
+   r.pct=r.fails?((r.stress-r.adm)/r.adm)*100:null;
+  }else{
+   r.pct=r.utilization;
+  }
+ });
+ return {p,out,hasFailures};
+}
+function renderStressRows(data){
+ const host=$('stressRows');
+ const side=$('materialVerification');
+ const colors={A:'#55cfe0',B:'#f0b64f'};
+ const cards=['A','B'].map(mat=>{const rr=data.out.filter(r=>r.mat===mat&&r.available&&r.stress!==null&&r.adm!==null);if(!rr.length)return `<div class="materialCard"><div class="matHead"><span style="color:${colors[mat]}">Material ${mat}</span><span>Sin tramo definido</span></div><p>Asigna un segmento de este material para verificarlo.</p></div>`;const worst=rr.reduce((a,b)=>{const ua=a.stress/a.adm,ub=b.stress/b.adm;return ub>ua?b:a});return `<div class="materialCard"><div class="matHead"><span style="color:${colors[mat]}">Material ${mat}</span><span style="color:${worst.fails?'#ff777c':'#58d6a0'}">${worst.fails?'FALLA':'CUMPLE'}</span></div><p>Control más exigente: ${worst.label}</p><p>Esfuerzo: <b>${fmt(worst.stress,2)} kgf/cm²</b></p><p>Admisible: ${fmt(worst.adm,2)} kgf/cm²</p><p>Ubicación: x = ${fmt(worst.x,3)} m</p></div>`}).join('');
+ side.innerHTML=`<h3>Verificación por material</h3><div class="materialLegend"><span><i style="background:${colors.A}"></i>Material A</span><span><i style="background:${colors.B}"></i>Material B</span></div>${cards}<div class="hint">Se revisan los extremos de cada tramo y los puntos donde V(x)=0. En los límites entre materiales, cada lado se evalúa con su propio admisible.</div>`;
+ const rows=data.out;
+ host.innerHTML=`<table class="stressCheckTable"><thead><tr><th>Verificación</th><th>Esfuerzo calculado</th><th>Admisible</th><th>Estado</th><th>% de falla</th></tr></thead><tbody>${rows.map(r=>`
+  <tr><td>Material ${r.mat} · ${r.label}</td>
+   <td>${r.stress===null?'—':fmt(r.stress,3)+' kgf/cm²'}</td>
+   <td>${r.adm===null?'—':fmt(r.adm,0)+' kgf/cm²'}</td>
+   <td><b style="color:${r.adm===null||r.stress===null?'#9aabc2':(r.fails?'#ff777c':'#58d6a0')}">${r.adm===null||r.stress===null?'PENDIENTE':(r.fails?'FALLA':'CUMPLE')}</b></td>
+   <td><b>${r.pct===null?'—':fmt(r.pct,2)+'%'}</b></td></tr>`).join('')}</tbody></table>
+  <div class="hint">${data.hasFailures?'Con al menos una FALLA, el porcentaje se muestra únicamente en los casos que superan el admisible.':'Como todos los casos CUMPLEN, se muestra el margen porcentual respecto al admisible.'} En caso de falla: (calculado − admisible) / admisible × 100.</div>`;
+}
+function selectCritical(data){
+ const candidates=data.out.filter(r=>r.available&&r.stress!==null&&r.adm!==null)
+  .map(r=>({c:{mat:r.mat,sign:r.sign,M:r.M,x:r.x,
+   topKind:r.sign==='+'?'C':'T',bottomKind:r.sign==='+'?'T':'C',
+   topStress:stressForMoment(r.M,'top',data.p),
+   bottomStress:stressForMoment(r.M,'bottom',data.p),
+   topAdm:getAllowable(r.mat,r.sign==='+'?'C':'T'),
+   bottomAdm:getAllowable(r.mat,r.sign==='+'?'T':'C')},
+   side:r.fiber==='top'?'top':'bottom',pct:r.pct,
+   utilization:r.utilization,stress:r.stress,kind:r.kind}));
+ if(!candidates.length)return null;
+ const failing=candidates.filter(v=>v.stress>v.c[v.side+'Adm']);
+ // Si existe alguna falla, gobierna la falla con mayor exceso porcentual.
+ if(failing.length)return failing.reduce((a,b)=>!a||b.pct>a.pct?b:a,null);
+ // Si todos cumplen, gobierna el menor porcentaje de diferencia relativa.
+ return candidates.reduce((a,b)=>!a||b.pct<a.pct?b:a,null);
+}
+function integrateStressResultants(p,caseInfo,hasFailures){
+ const {bands}=getProfileBands(),M=caseInfo.c.M;
+ const tension=[],compression=[];
+ // En falla se limita la fibra crítica al esfuerzo admisible.
+ // Si todos cumplen, se conserva el esfuerzo calculado del caso de referencia.
+ const referenceStress=hasFailures?caseInfo.c[caseInfo.side+'Adm']:caseInfo.stress;
+ const referenceDistance=caseInfo.side==='top'?p.Y2:p.Y1;
+ const k=referenceStress/referenceDistance;
+ bands.forEach(b=>{
+  const mid=(b.y0+b.y1)/2,isTop=mid>p.cy;
+  const isTension=(M>0&&!isTop)||(M<0&&isTop);
+  const s0=k*Math.abs(b.y0-p.cy),s1=k*Math.abs(b.y1-p.cy);
+  const force=b.width*(s0+s1)*(b.y1-b.y0)/2;
+  if(force<=1e-10)return;
+  const slope=(s1-s0)/(b.y1-b.y0),intercept=s0-slope*b.y0;
+  const first=b.width*(slope*(b.y1**3-b.y0**3)/3+intercept*(b.y1**2-b.y0**2)/2);
+  const entry={force,ybar:first/force,y0:b.y0,y1:b.y1,width:b.width};
+  (isTension?tension:compression).push(entry);
+ });
+ const combine=arr=>({R:arr.reduce((s,a)=>s+a.force,0),y:arr.length?arr.reduce((s,a)=>s+a.force*a.ybar,0)/arr.reduce((s,a)=>s+a.force,0):null});
+ // Mantener separadas las franjas geométricas del lado traccionado:
+ // T1 = franja inferior (triangular) y T2 = franja superior (trapezoidal).
+ const Tparts=tension.sort((a,b)=>a.ybar-b.ybar).map((v,i)=>({...v,label:'T'+(i+1)}));
+ const Cparts=compression.sort((a,b)=>b.y1-a.y1).map((v,i)=>({...v,label:compression.length===1?'C':'C'+(i+1)}));
+ return {T:combine(Tparts),Tparts,Cparts,C:combine(Cparts),tension,compression};
+}
+function drawStressDiagram(data,critical,resultants){
+ const c=$('stressCanvas'),ctx=c.getContext('2d'),w=c.width,h=c.height;ctx.clearRect(0,0,w,h);
+ // Rótulos propios del diagrama: antes se llamaba a placeLabel(), que no
+ // estaba definida y detenía la actualización de la verificación.
+ const placeLabel=(text,x,y,color='#eaf1fb',size=16,align='left')=>{
+  ctx.save();ctx.font='bold '+size+'px Arial';ctx.textAlign=align;ctx.textBaseline='middle';
+  ctx.lineWidth=4;ctx.strokeStyle='rgba(5,13,25,.92)';ctx.lineJoin='round';
+  ctx.strokeText(String(text),x,y);ctx.fillStyle=color;ctx.fillText(String(text),x,y);ctx.restore();
+ };
+ ctx.fillStyle='#0a1627';ctx.fillRect(0,0,w,h);
+ if(!critical){ctx.fillStyle='#9aabc2';ctx.font='22px Arial';ctx.fillText('Esperando un caso crítico verificable',35,55);return}
+ const p=data.p,parts=profileParts.filter(r=>r.sign>0);
+ const minX=Math.min(...parts.map(r=>r.x)),maxX=Math.max(...parts.map(r=>r.x+r.b)),minY=p.cy-p.Y1,maxY=p.cy+p.Y2;
+ const sx=180/(maxX-minX||1),sy=460/(maxY-minY||1),ox=110-minX*sx,oy=540+minY*sy;
+ const Y=y=>oy-y*sy,X=x=>ox+x*sx;
+ // Profile outline/rectangles.
+ ctx.fillStyle='rgba(88,148,255,.24)';ctx.strokeStyle='#75a7ff';ctx.lineWidth=3;
+ parts.forEach(r=>{ctx.fillRect(X(r.x),Y(r.y+r.h),r.b*sx,r.h*sy);ctx.strokeRect(X(r.x),Y(r.y+r.h),r.b*sx,r.h*sy)});
+ const enY=Y(p.cy);ctx.setLineDash([12,8]);ctx.strokeStyle='#c1cbd9';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(30,enY);ctx.lineTo(w-30,enY);ctx.stroke();
+ // Dashed horizontal construction lines at every geometric level/change of width.
+ const levels=[...new Set(parts.flatMap(r=>[r.y,r.y+r.h]).concat([p.cy]))].sort((a,b)=>a-b);
+ levels.forEach(y=>{ctx.beginPath();ctx.moveTo(30,Y(y));ctx.lineTo(w-30,Y(y));ctx.stroke()});
+ ctx.setLineDash([]);ctx.fillStyle='#cbd6e5';ctx.font='bold 17px Arial';ctx.fillText('E.N.',w-85,enY-8);
+ // Stress block: one straight line crossing E.N., sign controls direction and arrow locations.
+ const zeroX=760,maxStress=Math.max(critical.c.topStress,critical.c.bottomStress),span=180;
+ const hasFailures=data.out.some(r=>r.fails);
+ const referenceStress=hasFailures?critical.c[critical.side+'Adm']:critical.stress;
+ const referenceDistance=critical.side==='top'?p.Y2:p.Y1;
+ const stressAtY=y=>referenceStress*Math.abs(y-p.cy)/referenceDistance;
+ const topStress=stressAtY(maxY),botStress=stressAtY(minY);
+ // critical.c.M ya contiene el signo efectivo (incluida la inversión del diagrama).
+ // No volver a aplicar momentDiagramInverted aquí: hacerlo dos veces invierte
+ // incorrectamente tracción/compresión en la gráfica de esfuerzos.
+ const topTension=critical.c.M<0;
+ const topY=Y(maxY),bottomY=Y(minY);
+ const topSign=topTension?1:-1,bottomSign=topTension?-1:1;
+ const xTop=zeroX+topSign*(topStress/maxStress)*span,xBottom=zeroX+bottomSign*(botStress/maxStress)*span;
+ ctx.strokeStyle='#eaf1fb';ctx.lineWidth=4;ctx.beginPath();ctx.moveTo(xTop,topY);ctx.lineTo(zeroX,enY);ctx.lineTo(xBottom,bottomY);ctx.stroke();
+ ctx.fillStyle=topTension?'rgba(77,156,255,.20)':'rgba(255,119,124,.20)';ctx.beginPath();ctx.moveTo(zeroX,topY);ctx.lineTo(xTop,topY);ctx.lineTo(zeroX,enY);ctx.closePath();ctx.fill();
+ ctx.fillStyle=topTension?'rgba(255,119,124,.20)':'rgba(77,156,255,.20)';ctx.beginPath();ctx.moveTo(zeroX,enY);ctx.lineTo(xBottom,bottomY);ctx.lineTo(zeroX,bottomY);ctx.closePath();ctx.fill();
+ // Tension/compression arrows at outer fiber ends, matching the sign convention.
+ const arrow=(x1,y1,x2,y2,color,label)=>{ctx.strokeStyle=color;ctx.fillStyle=color;ctx.lineWidth=4;ctx.beginPath();ctx.moveTo(x1,y1);ctx.lineTo(x2,y2);ctx.stroke();let a=Math.atan2(y2-y1,x2-x1),s=13;ctx.beginPath();ctx.moveTo(x2,y2);ctx.lineTo(x2-s*Math.cos(a-.45),y2-s*Math.sin(a-.45));ctx.lineTo(x2-s*Math.cos(a+.45),y2-s*Math.sin(a+.45));ctx.closePath();ctx.fill();placeLabel(label,x2+8,y2-8,color,16,'left',22)};
+ if(topTension){arrow(zeroX,topY,xTop,topY,'#4d9cff','T '+fmt(topStress,1));arrow(zeroX,bottomY,xBottom,bottomY,'#ff777c','C '+fmt(botStress,1))}
+ else{arrow(zeroX,topY,xTop,topY,'#ff777c','C '+fmt(topStress,1));arrow(zeroX,bottomY,xBottom,bottomY,'#4d9cff','T '+fmt(botStress,1))}
+ // Marcar cada cambio geométrico y rotular el esfuerzo obtenido por triángulos semejantes.
+ levels.filter(y=>Math.abs(y-p.cy)>1e-8).forEach(y=>{
+  let yy=Y(y),xx=zeroX+(Math.abs(y-p.cy)/referenceDistance)*(critical.side==='top'?xTop-zeroX:xBottom-zeroX);
+  ctx.setLineDash([6,6]);ctx.strokeStyle='#f1f5fb';ctx.lineWidth=2.5;ctx.beginPath();ctx.moveTo(30,yy);ctx.lineTo(w-30,yy);ctx.stroke();ctx.setLineDash([]);
+  const val=stressAtY(y),isCompression=(critical.c.M>0&&y>p.cy)||(critical.c.M<0&&y<p.cy);
+  const color=isCompression?'#ff858b':'#58b7ff';
+  ctx.fillStyle=color;ctx.strokeStyle=color;ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(xx,yy);ctx.lineTo(xx+(isCompression?-28:28),yy);ctx.stroke();
+  placeLabel(fmt(val,2)+' kgf/cm²',Math.min(w-185,Math.max(12,xx+(isCompression?-165:34))),yy-9,color,15,'left',23);
+ });
+ // Resultantes individuales: T1, T2 (por franjas de ancho) y C.
+ const resultant=(r,color,label,side,offset=0)=>{if(!r||!Number.isFinite(r.y))return;
+  const yy=Y(r.y),x=zeroX+22,dir=side==='T'?1:-1,xe=x+dir*158;
+  // La flecha conserva la altura real de la resultante; solo se desplazan sus rótulos.
+  ctx.strokeStyle=color;ctx.fillStyle=color;ctx.lineWidth=5;
+  ctx.beginPath();ctx.moveTo(x,yy);ctx.lineTo(xe,yy);ctx.stroke();
+  ctx.beginPath();ctx.moveTo(xe,yy);ctx.lineTo(xe-15*dir,yy-9);ctx.lineTo(xe-15*dir,yy+9);ctx.closePath();ctx.fill();
+  const tx=side==='T'?xe+12:xe-172,ty=yy-20+offset;
+  ctx.font='bold 18px Arial';ctx.shadowColor='#000000';ctx.shadowBlur=5;
+  ctx.fillText(label+' = '+fmt(r.R,1)+' kgf',Math.max(12,Math.min(w-185,tx)),ty);
+  ctx.font='bold 16px Arial';
+  ctx.fillText('d = '+fmt(Math.abs(r.y-p.cy),2)+' cm',Math.max(12,Math.min(w-165,tx)),ty+23);
+  ctx.shadowBlur=0;
+  ctx.setLineDash([6,5]);ctx.strokeStyle=color;ctx.lineWidth=2;
+  ctx.beginPath();ctx.moveTo(xe,yy);ctx.lineTo(xe,enY);ctx.stroke();ctx.setLineDash([]);
+ };
+ (resultants.Tparts||[]).forEach((r,i)=>resultant({R:r.force,y:r.ybar},'#39c7ff','T'+(i+1),'T',(i%2===0?-8:12)));
+ (resultants.Cparts||[]).forEach((r,i)=>resultant({R:r.force,y:r.ybar},'#ff9a55',r.label||'C','C',(i%2===0?10:-10)));
+}
+function updateStressModule(){
+ try{
+  const data=buildStressCases();renderStressRows(data);
+  const critical=selectCritical(data);
+  // Cada fila representa un caso único. Contar admisibles desde esas filas
+  // (no desde topAdm/bottomAdm, propiedades que ya no existen en esta estructura).
+  const availableRows=data.out.filter(c=>c.available);
+  const readyRows=availableRows.filter(c=>c.adm!==null && c.stress!==null);
+  if(!critical || readyRows.length<availableRows.length || availableRows.length===0){
+   $('stressResultants').innerHTML='<div class="empty">Completa los datos de los casos disponibles para seleccionar automáticamente el caso crítico.</div>';
+   drawStressDiagram(data,null,null);
+   return;
+  }
+  const hasFailures=data.out.some(r=>r.fails);
+  const resultants=integrateStressResultants(data.p,critical,hasFailures);
+  const parts=resultants.Cparts||[];
+  const resultantText=[...(resultants.Tparts||[]).map((r,i)=>`T${i+1} = ${fmt(r.force,2)} kgf · dT${i+1} = ${fmt(Math.abs(r.ybar-data.p.cy),3)} cm`),...parts.map((r,i)=>`${r.label||'C'+(i+1)} = ${fmt(r.force,2)} kgf · d${r.label||'C'+(i+1)} = ${fmt(Math.abs(r.ybar-data.p.cy),3)} cm`)].join(' · ');
+  const selectionLabel=hasFailures
+   ?`Falla crítica: Material ${critical.c.mat} · M(${critical.c.sign}) · ${critical.kind==='T'?'Tracción':'Compresión'} · exceso ${fmt(critical.pct,2)}%`
+   :`Todos los casos cumplen. Caso de referencia: Material ${critical.c.mat} · M(${critical.c.sign}) · ${critical.kind==='T'?'Tracción':'Compresión'}`;
+  const usedStress=hasFailures?critical.c[critical.side+'Adm']:critical.stress;
+  const usedLabel=hasFailures?'Admisible usado para el diagrama':'Esfuerzo calculado usado para el diagrama';
+  $('stressResultants').innerHTML=`<div class="stressLine"><b>${selectionLabel}</b><span>Esfuerzo calculado: <strong class="valueGlow">${fmt(critical.stress,3)} kgf/cm²</strong></span><span>${usedLabel}: <strong class="valueGlow">${fmt(usedStress,3)} kgf/cm²</strong></span><span>${resultantText}</span></div>`;
+  // Mensaje narrativo automático del punto crítico de flexión.
+  // Los tramos se numeran por inicio/fin de cargas (no por apoyos).
+  const loadStations=[...new Set([0,num('L'),...loads.flatMap(l=>l.type==='distributed'?[l.a,l.b]:[l.x])].filter(Number.isFinite).map(x=>Number(x.toFixed(8))))].sort((a,b)=>a-b);
+  let spanLabel='tramo';
+  for(let i=0;i<loadStations.length-1;i++){
+   if(critical.c.x>=loadStations[i]-1e-7 && critical.c.x<=loadStations[i+1]+1e-7){spanLabel=`tramo ${i+1}-${i+2}`;break;}
+  }
+  const fiberLabel=critical.side==='top'?'superior':'inferior';
+  const actionLabel=critical.kind==='T'?'tracción':'compresión';
+  const momentSign=critical.c.M>=0?'positivo':'negativo';
+  const momentValue=`${critical.c.M>=0?'+':'−'}${fmt(Math.abs(critical.c.M),2)} ${unit()==='tf'?'tf·m':unit()==='kgf'?'kgf·m':unit()==='N'?'N·m':'kN·m'}`;
+  const message=`El momento más próximo a fallar por flexión se encuentra en el ${spanLabel}, en x = ${fmt(critical.c.x,2)} m, con momento M = ${momentValue}. La condición crítica se presenta en la fibra ${fiberLabel} por ${actionLabel}.`;
+  let messageNode=$('criticalFlexionMessage');
+  if(!messageNode){messageNode=document.createElement('div');messageNode.id='criticalFlexionMessage';$('stressRows').appendChild(messageNode);}
+  messageNode.className='criticalFlexionCard';
+  messageNode.innerHTML=`<div class="cardTitle">✓ Punto crítico de flexión</div><div>${message}</div>`;
+  drawStressDiagram(data,critical,resultants);
+ }catch(e){$('stressRows').innerHTML='<div class="message">'+e.message+'</div>';drawStressDiagram({},null,null)}
+}
+function clearStressAllowables(){['admAT','admAC','admBT','admBC'].forEach(id=>$(id).value='');updateStressModule()}
+
+$('L').addEventListener('change',()=>{drawBeam();$('status').textContent='Longitud actualizada. Revisa las posiciones de apoyos y cargas.'});
+// Inicio limpio: el usuario define cada ejercicio desde cero.
+renderLists();drawBeam();renderProfile();
+$('status').textContent='Define apoyos, cargas, materiales y perfil; después pulsa CALCULAR DIAGRAMAS.';clearCanvas('shear');clearCanvas('moment');
+</script>
+
+<script>
+(function(){
+  const main=document.querySelector('main.mainStack');
+  if(!main) return;
+
+  const direct=[...main.children];
+  const intro=main.querySelector('.introPanel');
+  const beamPanel=direct.find(el=>el.classList.contains('panel') && el.querySelector('#beam'));
+  const diagrams=main.querySelector('.diagramSection');
+  const controls=main.querySelector('.controlsPanel');
+  const results=main.querySelector('.resultsSection');
+  const verifyPanel=direct.find(el=>el.classList.contains('panel') && el.querySelector('#stressRows'));
+  if(!intro||!beamPanel||!diagrams||!controls||!results||!verifyPanel) return;
+
+  const pages=document.createElement('div');
+  pages.className='modulePages';
+  const nav=document.createElement('nav');
+  nav.className='moduleNav';
+  nav.setAttribute('aria-label','Módulos de ResMat-I');
+  const names=[
+    ['guide','01 · Guía'],
+    ['diagrams','02 · Cálculo de diagramas'],
+    ['profile','03 · Edición de perfil'],
+    ['check','04 · Verificación'],
+    ['stress','05 · Esfuerzos y triangulación']
+  ];
+  const pageEls={};
+  names.forEach(([id,label],i)=>{
+    const page=document.createElement('section');
+    page.className='modulePage';
+    page.dataset.page=id;
+    pageEls[id]=page;
+    pages.appendChild(page);
+    const b=document.createElement('button');
+    b.type='button';
+    b.className='moduleTab'+(i===0?' active':'');
+    b.textContent=label;
+    b.addEventListener('click',()=>showPage(id));
+    nav.appendChild(b);
+  });
+
+  main.innerHTML='';
+  main.append(nav,pages);
+  const pGuide=pageEls.guide, p1=pageEls.diagrams, p2=pageEls.profile, p3=pageEls.check, p4=pageEls.stress;
+  pGuide.append(intro);
+  p1.append(beamPanel,diagrams,controls);
+  p3.append(results,verifyPanel);
+
+  // Move the cross-section editor out of the beam/load editor and into its own page.
+  const body=controls.querySelector('.body');
+  const kids=[...body.children];
+  const start=kids.findIndex(el=>el.classList?.contains('section') && el.textContent.trim().startsWith('Perfil transversal'));
+  const end=start<0?-1:kids.findIndex((el,i)=>i>start && el.classList?.contains('section') && el.textContent.trim().startsWith('Añadir cargas'));
+  if(start>=0){
+    const profilePanel=document.createElement('div');
+    profilePanel.className='panel profileEditorPanel';
+    const head=document.createElement('div');
+    head.className='head';
+    head.textContent='02 · Perfil transversal de la sección';
+    const profileBody=document.createElement('div');
+    profileBody.className='body profileEditorBody';
+    profilePanel.append(head,profileBody);
+    const range=kids.slice(start,end<0?kids.length:end);
+    range.forEach(el=>profileBody.append(el));
+    p2.append(profilePanel);
+  }
+
+  // Keep stress verification in page 3; move only the actual stress distribution
+  // and its force-resultant output to page 4.
+  const verifyBody=verifyPanel.querySelector('.body');
+  const visual=verifyBody.querySelector('.stressVisual');
+  const resultants=verifyBody.querySelector('#stressResultants');
+  const stressPanel=document.createElement('div');
+  stressPanel.className='panel stressModulePanel';
+  const stressHead=document.createElement('div');
+  stressHead.className='head';
+  stressHead.textContent='04 · Distribución de esfuerzos y triangulación';
+  const stressBody=document.createElement('div');
+  stressBody.className='body';
+  stressPanel.append(stressHead,stressBody);
+  if(visual) stressBody.append(visual);
+  if(resultants) stressBody.append(resultants);
+  p4.append(stressPanel);
+
+  // Re-label the remaining controls as the beam/load editor, without duplicating
+  // profile controls or adding a second diagram toggle.
+  const controlsHead=controls.querySelector('.head');
+  if(controlsHead) controlsHead.innerHTML='Configuración de viga, apoyos y cargas <span class="tag">Editor</span>';
+  const profileSection=body.querySelector('.section');
+  // Update numbering on existing result blocks.
+  const resultTitle=results.querySelector('.sectionTitle');
+  if(resultTitle) resultTitle.textContent='03 · Resultados del análisis';
+  const verifyTitle=verifyPanel.querySelector('.head');
+  if(verifyTitle) verifyTitle.textContent='03 · Verificación de esfuerzos y estado de cumplimiento';
+
+  // Visualizador flotante: refleja en vivo el esquema estructural del editor.
+  const floatWrap=document.createElement('div');
+  floatWrap.id='beamFloatWrap';
+  floatWrap.innerHTML=`<button type="button" id="beamFloatLauncher" aria-label="Mostrar visualizador">◉ Ver viga</button>
+    <section id="beamFloatWindow" aria-label="Visualizador flotante de la viga">
+      <header id="beamFloatHeader"><strong>◉ Visualizador de la viga</strong><span>
+        <button type="button" id="beamFloatMin" aria-label="Minimizar">−</button>
+        <button type="button" id="beamFloatClose" aria-label="Ocultar">×</button></span></header>
+      <div class="beamFloatContent"><canvas id="floatingBeam" width="1200" height="500"></canvas>
+      <small>Vista en vivo · Se actualiza al modificar apoyos, cargas y momentos</small></div>
+    </section>`;
+  document.body.append(floatWrap);
+  const floatWindow=floatWrap.querySelector('#beamFloatWindow');
+  const launcher=floatWrap.querySelector('#beamFloatLauncher');
+  const minBtn=floatWrap.querySelector('#beamFloatMin');
+  const closeBtn=floatWrap.querySelector('#beamFloatClose');
+
+  // Copia el dibujo real del editor; no mantiene un segundo cálculo independiente.
+  const drawBeamOriginal=drawBeam;
+  drawBeam=function(){
+    drawBeamOriginal();
+    const source=document.getElementById('beam');
+    const target=document.getElementById('floatingBeam');
+    if(source && target){
+      const tctx=target.getContext('2d');
+      tctx.clearRect(0,0,target.width,target.height);
+      tctx.drawImage(source,0,0,target.width,target.height);
+    }
+  };
+  launcher.addEventListener('click',()=>{floatWindow.hidden=false;launcher.hidden=true;drawBeam();});
+  minBtn.addEventListener('click',()=>{floatWindow.classList.toggle('minimized');minBtn.textContent=floatWindow.classList.contains('minimized')?'+':'−';});
+  closeBtn.addEventListener('click',()=>{floatWindow.hidden=true;launcher.hidden=false;});
+
+  // Arrastrable con mouse o tacto; los botones conservan su función.
+  const floatHeader=floatWrap.querySelector('#beamFloatHeader');
+  let drag=null;
+  floatHeader.addEventListener('pointerdown',e=>{
+    if(e.target.closest('button')) return;
+    const r=floatWindow.getBoundingClientRect();
+    drag={x:e.clientX-r.left,y:e.clientY-r.top};
+    floatHeader.setPointerCapture(e.pointerId);
+  });
+  floatHeader.addEventListener('pointermove',e=>{
+    if(!drag)return;
+    floatWindow.style.left=Math.max(4,Math.min(innerWidth-floatWindow.offsetWidth-4,e.clientX-drag.x))+'px';
+    floatWindow.style.top=Math.max(4,Math.min(innerHeight-58,e.clientY-drag.y))+'px';
+    floatWindow.style.right='auto';floatWindow.style.bottom='auto';
+  });
+  const stopDrag=()=>{drag=null;};
+  floatHeader.addEventListener('pointerup',stopDrag);
+  floatHeader.addEventListener('pointercancel',stopDrag);
+
+  function showPage(id){
+    Object.entries(pageEls).forEach(([key,el])=>el.hidden=key!==id);
+    floatWrap.hidden=id!=='diagrams';
+    if(id==='diagrams' && floatWindow.hidden){floatWindow.hidden=false;launcher.hidden=true;}
+    [...nav.children].forEach((b,i)=>b.classList.toggle('active',names[i][0]===id));
+    // Redraw canvases after a hidden page becomes visible so the scale stays
+    // proportional to the phone viewport rather than being stretched.
+    requestAnimationFrame(()=>{
+      try{
+        if(id==='diagrams'){
+          if(typeof drawBeam==='function') drawBeam();
+          if(typeof last!=='undefined' && last && typeof drawGraph==='function'){
+            const L=Number(document.getElementById('L').value);
+            const u=document.getElementById('unit').value;
+            drawGraph('shear',L,x=>last.V(x),last.breaks,'V',u,true);
+            drawGraph('moment',L,x=>last.M(x),last.breaks,'M',u+'·m',false);
+          }
+        }
+        if(id==='profile' && typeof renderProfile==='function') renderProfile();
+        if((id==='check' || id==='stress') && typeof updateStressModule==='function') updateStressModule();
+      }catch(e){/* keep current results visible if a redraw is not applicable */}
+    });
+  }
+  showPage('guide');
+})();
+
+
+function voiceNumber(s){
+ const words={'cero':'0','un':'1','uno':'1','una':'1','dos':'2','tres':'3','cuatro':'4','cinco':'5','seis':'6','siete':'7','ocho':'8','nueve':'9','diez':'10','quince':'15','veinte':'20'};
+ s=String(s||'').toLowerCase().trim().replace(',','.');
+ if(words[s]!==undefined)s=words[s];
+ const n=Number(s);return Number.isFinite(n)?n:null;
+}
+function voiceNumPattern(){
+ return '(?:\\\\d+(?:\\\\.\\\\d+)?|cero|un|uno|una|dos|tres|cuatro|cinco|seis|siete|ocho|nueve|diez|quince|veinte)';
+}
+function interpretVoiceDraft(){
+ const raw=$('voiceTranscript').value.toLowerCase().replace(/,/g,'.').replace(/metros?/g,'m').replace(/kilonewtons?/g,'kn');
+ if(!raw.trim()){$('voicePreview').textContent='Primero escribe o dicta las instrucciones.';return;}
+ const N=voiceNumPattern(),found=[],draft={length:null,supports:[],loads:[]};
+ const lengthMatch=raw.match(new RegExp('(?:longitud(?: total)?|viga de)\\\\s*(?:igual a\\\\s*)?('+N+')\\\\s*(?:m)?'));
+ if(lengthMatch){const v=voiceNumber(lengthMatch[1]);if(v>0){draft.length=v;found.push('Longitud de viga: '+v+' m');}}
+ const supportRe=new RegExp('(articulad[oa]|rodillo|empotramiento)\\\\s+(?:en|a|ubicado en)\\\\s*('+N+')','g');
+ for(const m of raw.matchAll(supportRe)){
+  const x=voiceNumber(m[2]);if(x!==null){draft.supports.push({type:/articulad/.test(m[1])?'pin':/rodillo/.test(m[1])?'roller':'fixed',x});found.push('Apoyo '+m[1]+' en '+x+' m');}
+ }
+ // Point loads: explicit direction is required to avoid guessing the sign.
+ const pointRe=new RegExp('carga puntual de\\\\s*('+N+')\\\\s*(?:kn|n|kgf|tf)?\\\\s*(hacia abajo|hacia arriba|abajo|arriba)\\\\s*(?:en la posición|en|a)\\\\s*('+N+')','g');
+ for(const m of raw.matchAll(pointRe)){
+  const mag=voiceNumber(m[1]),x=voiceNumber(m[3]),up=/arriba/.test(m[2]);
+  if(mag!==null&&x!==null){draft.loads.push({type:'point',P:up?-mag:mag,x});found.push('Carga puntual '+mag+' '+(up?'hacia arriba':'hacia abajo')+' en '+x+' m');}
+ }
+ // Concentrated moments: clockwise is positive in the existing app convention.
+ const momentRe=new RegExp('momento\\\\s+(horario|antihorario)\\\\s+de\\\\s*('+N+')\\\\s*(?:kn\\\\s*\\\\.?\\\\s*m|tf\\\\s*\\\\.?\\\\s*m|n\\\\s*\\\\.?\\\\s*m)?\\\\s*(?:en la posición|en|a)\\\\s*('+N+')','g');
+ for(const m of raw.matchAll(momentRe)){
+  const mag=voiceNumber(m[2]),x=voiceNumber(m[3]),cw=m[1]==='horario';
+  if(mag!==null&&x!==null){draft.loads.push({type:'moment',M:cw?mag:-mag,x});found.push('Momento '+m[1]+' '+mag+' en '+x+' m');}
+ }
+ const dist=new RegExp('carga distribuida(?: desde| de)?\\\\s*('+N+')\\\\s*(?:hasta|a)\\\\s*('+N+')');
+ const dm=raw.match(dist);
+ const q0m=raw.match(new RegExp('q\\\\s*1\\\\s*(?:igual a|=)?\\\\s*('+N+')'));
+ const q1m=raw.match(new RegExp('q\\\\s*2\\\\s*(?:igual a|=)?\\\\s*('+N+')'));
+ if(dm&&q0m&&q1m){
+  const a=voiceNumber(dm[1]),b=voiceNumber(dm[2]),q0=voiceNumber(q0m[1]),q1=voiceNumber(q1m[1]);
+  if([a,b,q0,q1].every(v=>v!==null)){draft.loads.push({type:'distributed',a,b,q0,q1});found.push('Carga distribuida de '+a+' a '+b+' m; Q1='+q0+', Q2='+q1);}
+ }
+ window.__voiceDraft=draft;
+ if(!found.length){
+  $('voicePreview').textContent='No reconocí una instrucción completa. Especifica magnitud, sentido y posición. Ejemplos: “carga puntual de 12 kN hacia abajo en 3 m”; “momento antihorario de 10 kN metro en 2 m”.';
+  return;
+ }
+ $('voicePreview').innerHTML='<b>Datos detectados; revisa antes de aplicar:</b><br>'+found.map(x=>'• '+x).join('<br>')+
+  '<br><button class="secondary" type="button" style="margin-top:8px" onclick="applyVoiceDraft()">Aplicar datos reconocidos</button>';
+}
+function applyVoiceDraft(){
+ const d=window.__voiceDraft;if(!d)return;
+ const newL=d.length!==null?d.length:num('L');
+ if(!(newL>0)){alert('Introduce una longitud válida antes de aplicar los datos.');return;}
+ if(d.length!==null)$('L').value=d.length;
+ for(const s of d.supports){
+  if(validPos(s.x,newL)&&!supports.some(v=>v.type===s.type&&Math.abs(v.x-s.x)<1e-8))supports.push(s);
+ }
+ for(const l of d.loads){
+  const valid=l.type==='point'||l.type==='moment'?validPos(l.x,newL):
+   l.type==='distributed'&&l.a>=0&&l.b<=newL&&l.b>l.a&&l.q0>=0&&l.q1>=0;
+  if(valid)loads.push(l);
+ }
+ supports.sort((a,b)=>a.x-b.x);
+ renderLists();drawBeam();
+ $('voiceStatus').textContent='Datos incorporados. Comprueba el esquema y pulsa CALCULAR DIAGRAMAS.';
+ $('voicePreview').textContent='Listo. Revisa apoyos, cargas y posiciones antes de calcular.';
+ window.__voiceDraft=null;
+}
+
+
+</script>
+<style>
+.moduleNav{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;margin:2px 0 4px}
+.moduleTab{min-width:0;padding:11px 8px;border:1px solid #344b68;border-radius:12px;background:#14243a;color:#c8d8ea;font-size:12px;font-weight:800;line-height:1.25;white-space:normal}
+.moduleTab.active{background:linear-gradient(135deg,#1b536b,#173b5b);border-color:#45cde0;color:#fff;box-shadow:0 0 0 1px #45cde033}
+.modulePage{display:flex;flex-direction:column;gap:12px;min-width:0}
+.modulePage[hidden]{display:none!important}
+.profileEditorBody{display:flex;flex-direction:column;gap:8px;min-width:0}
+.profileEditorBody>.section,.profileEditorBody>.hint,.profileEditorBody>#profileParts,.profileEditorBody>.modelcanvas,.profileEditorBody>#profileResults{width:100%}
+.profileEditorBody .row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.profileEditorBody input,.profileEditorBody select{max-width:100%;min-width:0}
+.modulePage .panel,.modulePage .diagramSection,.modulePage .resultsSection{width:100%;min-width:0}
+.modulePage .diagramGrid{grid-template-columns:minmax(0,1fr)}
+.modulePage .diagramPanel .graph{height:auto;min-height:0;display:block;overflow:hidden}
+.modulePage .diagramPanel canvas{display:block;width:100%;height:auto;max-width:100%;object-fit:contain}
+.modulePage .compactDiagram .graph{height:76px}
+.modulePage .compactDiagram .graph canvas{display:none}
+.modulePage .stressVisual canvas{display:block;width:100%;height:auto;max-width:100%}
+.modulePage .controlsPanel .body{grid-template-columns:minmax(0,1fr)}
+.modulePage .controlsPanel .body>*{min-width:0;max-width:100%}
+.modulePage .controlsPanel input,.modulePage .controlsPanel select{width:100%;max-width:100%;min-width:0}
+.modulePage .controlsPanel .row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+@media(max-width:420px){
+ .moduleNav{gap:6px}
+ .moduleTab{font-size:11px;padding:10px 5px}
+ .modulePage .controlsPanel .row,.profileEditorBody .row{grid-template-columns:minmax(0,1fr)}
+ .modulePage .diagramPanel .graph{height:auto}
+}
+.verificationLayout{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(230px,.85fr);gap:12px;align-items:start}.materialVerification{background:#0d1a2b;border:1px solid #2b405c;border-radius:10px;padding:12px;min-width:0}.materialVerification h3{margin:2px 0 10px;color:#dce8f7;font-size:14px}.materialCard{border:1px solid #2b405c;border-radius:8px;padding:9px;margin:8px 0;background:#101f33}.materialCard .matHead{display:flex;justify-content:space-between;gap:8px;font-weight:800;margin-bottom:5px}.materialCard p{margin:4px 0;font-size:12px;color:#c5d3e5}.materialLegend{display:flex;gap:12px;flex-wrap:wrap;margin:5px 0 9px;font-size:11px;color:#c5d3e5}.materialLegend span{display:flex;align-items:center;gap:5px}.materialLegend i{display:inline-block;width:13px;height:4px;border-radius:3px}.materialVerification .hint{font-size:11px}@media(max-width:760px){.verificationLayout{grid-template-columns:1fr}}
+</style>
+
+</body></html>
